@@ -51,16 +51,16 @@ export default function AIChatPage() {
     <div className="flex flex-col h-full bg-linear-to-b from-background to-muted/30">
       <div className="flex-1 flex flex-col items-center justify-center gap-8 px-4 py-12">
         {/* Logo & Greeting */}
-        <div className="text-center space-y-4">
+        <div className="text-center space-y-4 max-w-xl">
           <div className="flex justify-center">
             <div className="w-16 h-16 rounded-full bg-linear-to-br from-purple-500 to-fuchsia-600 flex items-center justify-center shadow-xl shadow-purple-500/30">
               <Sparkles className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
             How can I help you today?
           </h1>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
             Ask anything about your notes. I can find ideas, summarize topics,
             and more.
           </p>
@@ -83,9 +83,7 @@ export default function AIChatPage() {
                 )}
               </div>
               <div className="flex-1">
-                <p className="text-sm font-medium text-foreground">
-                  {text}
-                </p>
+                <p className="text-sm font-medium text-foreground">{text}</p>
               </div>
               <ArrowRight className="w-4 h-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-all shrink-0" />
             </button>

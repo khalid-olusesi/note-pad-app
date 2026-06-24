@@ -339,12 +339,13 @@ export default function ChatViewPage({
   const isEmptyChat = !isMessagesLoading && dbMessages.length === 0;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-57px)] max-w-3xl mx-auto">
+    <div className="flex flex-col min-h-[calc(100vh-57px)] w-full max-w-3xl mx-auto px-4 md:px-0">
       {/* Header */}
-      <div className="flex items-center gap-3 pb-4 border-b border-border/50">
+      <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-border/50">
         <button
           onClick={toggle}
-          className="p-1.5 hover:bg-muted rounded-lg transition-colors"
+          className="p-2 bg-muted/20 hover:bg-muted rounded-2xl transition-colors text-muted-foreground"
+          aria-label="Open chat list"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
@@ -364,7 +365,7 @@ export default function ChatViewPage({
       </div>
 
       {/* Messages Area */}
-      <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+      <div className="flex-1 overflow-y-auto py-6 flex flex-col gap-5 scrollbar-none [&::-webkit-scrollbar]:hidden">
         {isMessagesLoading ? (
           <ChatLoadingSkeleton />
         ) : isEmptyChat ? (
@@ -387,12 +388,12 @@ export default function ChatViewPage({
                 <button
                   key={text}
                   onClick={() => handleSuggestion(text)}
-                  className="flex items-center gap-3 p-3 rounded-xl border border-border/60 bg-muted/20 hover:bg-muted/50 hover:border-purple-500/30 transition-all text-left group"
+                  className="flex items-start gap-3 p-3 rounded-xl border border-border/60 bg-muted/20 hover:bg-muted/50 hover:border-purple-500/30 transition-all text-left group"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0 group-hover:bg-purple-500/20 transition-colors">
-                    <Icon className="w-3.5 h-3.5 text-purple-400" />
+                  <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0 group-hover:bg-purple-500/20 transition-colors">
+                    <Icon className="w-4 h-4 text-purple-400" />
                   </div>
-                  <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors leading-snug">
+                  <span className="text-sm sm:text-xs text-muted-foreground group-hover:text-foreground transition-colors leading-snug">
                     {text}
                   </span>
                 </button>

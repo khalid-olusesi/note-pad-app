@@ -66,12 +66,14 @@ export default function LogIn() {
 
   return (
     <>
-      <Card className="text-base py-3 px-3 text-center shadow-2xl rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-xl">
+      <Card className="w-full max-w-[420px] mx-auto text-base py-4 px-4 sm:px-6 text-center shadow-2xl rounded-3xl bg-white/[0.03] border border-white/5 backdrop-blur-xl">
         <CardHeader className="text-white text-base pb-2">
           <AppLogo />
-          <p className="text-lg mt-1 font-semibold">Welcome back</p>
+          <p className="text-base sm:text-lg mt-1 font-semibold">
+            Welcome back
+          </p>
         </CardHeader>
-        <CardDescription className="text-center text-zinc-400 text-xs -mt-1 mb-2">
+        <CardDescription className="text-center text-zinc-400 text-[12px] sm:text-xs -mt-1 mb-2">
           Login to view your notes
         </CardDescription>
         <CardContent>
@@ -83,7 +85,9 @@ export default function LogIn() {
                 render={({ field, fieldState }) => {
                   return (
                     <Field>
-                      <FieldLabel className="text-xs py-0.5 text-zinc-300">Email</FieldLabel>
+                      <FieldLabel className="text-xs py-0.5 text-zinc-300">
+                        Email
+                      </FieldLabel>
                       <Input
                         className="py-1.5 px-3 text-sm bg-black/20 border-white/10 text-white focus:border-purple-500 rounded-lg h-9"
                         type="email"
@@ -106,7 +110,9 @@ export default function LogIn() {
                 render={({ field, fieldState }) => {
                   return (
                     <Field>
-                      <FieldLabel className="text-xs py-0.5 text-zinc-300">Password</FieldLabel>
+                      <FieldLabel className="text-xs py-0.5 text-zinc-300">
+                        Password
+                      </FieldLabel>
                       <Input
                         className="py-1.5 px-3 text-sm bg-black/20 border-white/10 text-white focus:border-purple-500 rounded-lg h-9"
                         placeholder="••••••••"
@@ -118,7 +124,6 @@ export default function LogIn() {
                       {fieldState.invalid && (
                         <FieldError errors={[fieldState.error]} />
                       )}
-
                     </Field>
                   );
                 }}
@@ -168,9 +173,7 @@ export default function LogIn() {
               </Button>
 
               <p className="text-center text-[11px] flex justify-center items-center gap-1.5 mt-3">
-                <span className="text-zinc-400">
-                  Don't have an account?
-                </span>{" "}
+                <span className="text-zinc-400">Don't have an account?</span>{" "}
                 <Link
                   className="text-purple-400 hover:text-purple-300 font-medium transition-colors cursor-pointer"
                   href={"/auth/signup"}
@@ -178,7 +181,7 @@ export default function LogIn() {
                   Sign up
                 </Link>
               </p>
-              
+
               <p className="text-center text-[11px] flex justify-center items-center mt-2">
                 <a
                   className="text-zinc-400 hover:text-zinc-300 transition-colors cursor-pointer underline"

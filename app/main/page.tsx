@@ -81,8 +81,7 @@ function MainPageContent() {
 
 
   const notes = useQuery(
-    search ? api.notes.searchNotes : api.notes.getNotesList,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     search ? { term: search, limit: 100 } : ({} as any),
   );
 

@@ -68,11 +68,11 @@ export default function NewChatPage() {
   return (
     <div className="flex h-[calc(100vh-57px)] flex-col bg-linear-to-b from-background to-muted/30 px-4">
       {/* Back Button */}
-      <div className="flex items-center gap-3 pb-4 border-b border-border/50">
+      <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-border/50">
         <div className="flex items-center gap-2 py-3">
           <div
             onClick={toggle}
-            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer rounded-lg hover:bg-muted/50 px-2.5 py-1.5 -ml-2"
+            className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer rounded-lg hover:bg-muted/50 px-2.5 py-1.5"
           >
             {isOpen ? (
               <ChevronLeft className="w-5 h-5" />
@@ -103,10 +103,10 @@ export default function NewChatPage() {
               <MessageCircle className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h1 className="text-4xl font-bold tracking-tight">
+          <h1 className="text-3xl sm:text-4xl font-bold tracking-tight">
             What would you like to know?
           </h1>
-          <p className="text-muted-foreground text-lg max-w-xl">
+          <p className="text-muted-foreground text-base sm:text-lg max-w-xl mx-auto leading-relaxed">
             Ask anything about your notes. I can summarize, find ideas, and help
             you discover connections.
           </p>
@@ -121,7 +121,7 @@ export default function NewChatPage() {
               onChange={(e) => setMessage(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Type your message... (Ctrl+Enter to send)"
-              className="w-full px-4 py-3 bg-transparent text-foreground placeholder-muted-foreground resize-none focus:outline-none max-h-40 min-h-13"
+              className="w-full px-4 py-3 bg-transparent text-sm sm:text-base text-foreground placeholder:text-muted-foreground resize-none focus:outline-none max-h-52 min-h-[120px]"
               disabled={isLoading}
             />
 

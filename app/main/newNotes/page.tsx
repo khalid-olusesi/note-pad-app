@@ -187,7 +187,7 @@ function Toolbar({ editor }: { editor: Editor }) {
               </button>
               <button
                 type="button"
-                className="w-full text-left px-3 py-2 text-sm rounded hover:bg-muted/50 font-semibold transition-colors cursor-pointer text-lg"
+                className="w-full text-left px-3 py-2 text-base rounded hover:bg-muted/50 font-semibold transition-colors cursor-pointer"
                 onMouseDown={(e) => {
                   e.preventDefault();
                   editor.chain().focus().setHeading({ level: 1 }).run();
@@ -209,7 +209,7 @@ function Toolbar({ editor }: { editor: Editor }) {
               </button>
               <button
                 type="button"
-                className="w-full text-left px-3 py-2 text-sm rounded hover:bg-muted/50 text-xs transition-colors cursor-pointer"
+                className="w-full text-left px-3 py-2 text-xs rounded hover:bg-muted/50 transition-colors cursor-pointer"
                 onMouseDown={(e) => {
                   e.preventDefault();
                   editor.chain().focus().setHeading({ level: 3 }).run();
@@ -518,9 +518,12 @@ function Toolbar({ editor }: { editor: Editor }) {
 
 function NoteEditor({ editor }: { editor: Editor }) {
   return (
-    <div className="overflow-hidden border border-border/50 rounded-xl bg-background/50 shadow-sm">
+    <div className="flex flex-col flex-1 overflow-hidden border border-border/50 rounded-2xl bg-background/50 shadow-sm">
       <Toolbar editor={editor} />
-      <div className="cursor-text p-2" onClick={() => editor.commands.focus()}>
+      <div
+        className="cursor-text flex-1 min-h-0 overflow-y-auto p-2"
+        onClick={() => editor.commands.focus()}
+      >
         <EditorContent editor={editor} />
       </div>
     </div>
@@ -546,25 +549,36 @@ function NewNotesContent() {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [title, setTitle] = useState("");
   const router = useRouter();
-  const createNote = useMutation(api.notes.createNote).withOptimisticUpdate((localStore, args) => {
+  const createNote = useMutation(api.notes.createNote).withOptimisticUpdate(
+    (localStore, args) => {
+      const existingNotes = localStore.getQuery(api.notes.getNotesList);
+      if (existingNotes !== undefined) {
+        const newNote = {
+          _id: `temp_${Date.now()}` as any,
+          ...args,
+          createdAt: Date.now(),
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(api.notes.getNotesList, {}, [
+          newNote,
+          ...existingNotes,
+        ] as any);
+      }
+    },
+  );
+  const updateNotesMut = useMutation(
+    api.notes.updateNotes,
+  ).withOptimisticUpdate((localStore, args) => {
     const existingNotes = localStore.getQuery(api.notes.getNotesList);
     if (existingNotes !== undefined) {
-      const newNote = {
-        _id: `temp_${Date.now()}` as any,
-        ...args,
-        createdAt: Date.now(),
-      };
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      localStore.setQuery(api.notes.getNotesList, {}, [newNote, ...existingNotes] as any);
-    }
-  });
-  const updateNotesMut = useMutation(api.notes.updateNotes).withOptimisticUpdate((localStore, args) => {
-    const existingNotes = localStore.getQuery(api.notes.getNotesList);
-    if (existingNotes !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
-        n._id === args.noteId ? { ...n, ...args, updatedAt: Date.now() } : n
-      ));
+      localStore.setQuery(
+        api.notes.getNotesList,
+        {},
+        existingNotes.map((n: any) =>
+          n._id === args.noteId ? { ...n, ...args, updatedAt: Date.now() } : n,
+        ),
+      );
     }
   });
 
@@ -626,8 +640,6 @@ function NewNotesContent() {
       }
     }
   }, [note, CACHE_KEY]);
-
-
 
   const autoSave = useCallback(async () => {
     if (!title.trim()) return;
@@ -881,16 +893,16 @@ function NewNotesContent() {
   if (!editor) return null;
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center gap-4 mt-6 ">
-        <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-8 h-8">
+    <div className="space-y-4 flex min-h-[calc(100vh-57px)] h-[calc(100vh-57px)] flex-col overflow-hidden">
+      <div className="flex items-center gap-3 mt-6">
+        <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-9 h-9">
           <Notebook className="w-4 h-4" />
         </div>
-        <h1 className="text-lg font-semibold">New Note</h1>
+        <h1 className="text-base sm:text-lg font-semibold">New Note</h1>
       </div>
       <form>
         <input
-          className="w-full border-b outline-0 p-2 text-sm font-medium"
+          className="w-full border-b outline-0 p-2 text-sm font-medium placeholder:text-muted-foreground"
           type="text"
           placeholder="Add a title..."
           value={title}
@@ -898,9 +910,11 @@ function NewNotesContent() {
         />
       </form>
 
-      <NoteEditor editor={editor} />
+      <div className="flex flex-1 min-h-0">
+        <NoteEditor editor={editor} />
+      </div>
 
-      <div className="introduction">
+      <div className="introduction overflow-y-auto pr-1">
         <h2 className="text-lg font-semibold w-50 leading-8">
           Welcome to your new note!
         </h2>
@@ -934,7 +948,7 @@ function NewNotesContent() {
       <div className="border" />
 
       {/* Example to-do list */}
-      <div className="second-intro">
+      <div className="second-intro hidden sm:block">
         <h2 className="flex gap-2 text-lg font-semibold items-center">
           Example: To-do List <SquareCheck />
         </h2>

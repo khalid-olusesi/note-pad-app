@@ -32,7 +32,6 @@ export default function SignUp() {
   const [isPending, startTransition] = useTransition();
   const router = useRouter();
 
-
   const form = useForm<z.infer<typeof signupSchema>>({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     resolver: zodResolver(signupSchema as any),
@@ -45,10 +44,15 @@ export default function SignUp() {
     },
   });
 
-  const { register, formState: { errors } } = form;
+  const {
+    register,
+    formState: { errors },
+  } = form;
 
   // Helper to register without passing value (avoids controlled/uncontrolled warning)
-  const registerInput = (name: "name" | "email" | "password" | "confirmPassword") => {
+  const registerInput = (
+    name: "name" | "email" | "password" | "confirmPassword",
+  ) => {
     const { onChange, onBlur, ref, name: fieldName } = register(name);
     return { onChange, onBlur, ref, name: fieldName };
   };
@@ -84,19 +88,23 @@ export default function SignUp() {
   }
 
   return (
-    <Card className="text-base py-3 px-3 text-center shadow-2xl rounded-2xl bg-white/[0.03] border border-white/5 backdrop-blur-xl">
+    <Card className="w-full max-w-[420px] mx-auto text-base py-4 px-4 sm:px-6 text-center shadow-2xl rounded-3xl bg-white/[0.03] border border-white/5 backdrop-blur-xl">
       <CardHeader className="text-white text-base pb-2">
         <AppLogo />
-        <p className="text-lg mt-1 font-semibold">Create an account</p>
+        <p className="text-base sm:text-lg mt-1 font-semibold">
+          Create an account
+        </p>
       </CardHeader>
-      <CardDescription className="text-center text-zinc-400 text-xs -mt-1 mb-2">
+      <CardDescription className="text-center text-zinc-400 text-[12px] sm:text-xs -mt-1 mb-2">
         Start organizing your notes for free
       </CardDescription>
       <CardContent>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FieldGroup className="flex flex-col gap-2 text-left">
             <Field>
-              <FieldLabel className="text-xs py-0.5 text-zinc-300">Full Name</FieldLabel>
+              <FieldLabel className="text-xs py-0.5 text-zinc-300">
+                Full Name
+              </FieldLabel>
               <input
                 className="py-1.5 px-3 text-sm bg-black/20 border-white/10 text-white focus:border-purple-500 rounded-lg h-9 w-full"
                 type="text"
@@ -105,13 +113,13 @@ export default function SignUp() {
                 placeholder="e.g. John Doe"
                 defaultValue=""
               />
-              {errors.name && (
-                <FieldError errors={[errors.name]} />
-              )}
+              {errors.name && <FieldError errors={[errors.name]} />}
             </Field>
 
             <Field>
-              <FieldLabel className="text-xs py-0.5 text-zinc-300">Email</FieldLabel>
+              <FieldLabel className="text-xs py-0.5 text-zinc-300">
+                Email
+              </FieldLabel>
               <input
                 className="py-1.5 px-3 text-sm bg-black/20 border-white/10 text-white focus:border-purple-500 rounded-lg h-9 w-full"
                 type="email"
@@ -120,13 +128,13 @@ export default function SignUp() {
                 placeholder="you@example.com"
                 defaultValue=""
               />
-              {errors.email && (
-                <FieldError errors={[errors.email]} />
-              )}
+              {errors.email && <FieldError errors={[errors.email]} />}
             </Field>
 
             <Field>
-              <FieldLabel className="text-xs py-0.5 text-zinc-300">Password</FieldLabel>
+              <FieldLabel className="text-xs py-0.5 text-zinc-300">
+                Password
+              </FieldLabel>
               <input
                 className="py-1.5 px-3 text-sm bg-black/20 border-white/10 text-white focus:border-purple-500 rounded-lg h-9 w-full"
                 placeholder="••••••••"
@@ -135,9 +143,7 @@ export default function SignUp() {
                 {...registerInput("password")}
                 defaultValue=""
               />
-              {errors.password && (
-                <FieldError errors={[errors.password]} />
-              )}
+              {errors.password && <FieldError errors={[errors.password]} />}
             </Field>
 
             <Field>
@@ -201,9 +207,7 @@ export default function SignUp() {
             </Button>
 
             <p className="text-center text-[11px] flex justify-center items-center gap-1.5 mt-3">
-              <span className="text-zinc-400">
-                Already have an account?
-              </span>{" "}
+              <span className="text-zinc-400">Already have an account?</span>{" "}
               <Link
                 className="text-purple-400 hover:text-purple-300 font-medium transition-colors cursor-pointer"
                 href={"/auth/login"}

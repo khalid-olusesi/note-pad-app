@@ -7,6 +7,7 @@ import {
   MessageCircle,
   Trash2,
   MoreHorizontal,
+  X,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -40,28 +41,40 @@ function Sidebar() {
 
   const isLoading = chats === undefined;
 
-  // Collapsed state — just show the toggle button
-
   if (!isOpen) {
-    return;
+    return null;
   }
 
   return (
-    <div className="w-80 border-r border-border/50 hidden md:flex flex-col shrink-0">
-      {/* Header */}
-      <div className="p-4 border-b border-border/50 space-y-3">
-        <button
-          onClick={() => router.push("/main/ai-chat/new")}
-          className="w-full px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors shadow-md"
-        >
-          + New Chat
-        </button>
-        <div className="flex items-center justify-between">
+    <>
+      <div
+        className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+        onClick={toggle}
+      />
+      <div className="fixed inset-y-0 left-0 z-50 w-72 border-r border-border/50 bg-background flex flex-col shrink-0 p-2 shadow-2xl md:static md:z-auto md:w-80 md:border-r md:shadow-none">
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-border/50 space-y-0">
+          <div className="flex-1 pr-2">
+            <button
+              onClick={() => router.push("/main/ai-chat/new")}
+              className="w-full px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors shadow-md"
+            >
+              + New Chat
+            </button>
+          </div>
+          <button
+            onClick={toggle}
+            className="md:hidden p-2 rounded-lg text-muted-foreground hover:bg-muted/60 transition-colors"
+            aria-label="Close chats"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="p-4 border-b border-border/50">
           <h2 className="text-sm font-semibold text-muted-foreground px-1">
             Recent chats
           </h2>
         </div>
-      </div>
 
       {/* Chat List */}
       <div className="flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
@@ -129,8 +142,9 @@ function Sidebar() {
           </div>
         )}
       </div>
-    </div>
-  );
+      </div>
+      </>
+    );
 }
 
 function LayoutInner({ children }: { children: React.ReactNode }) {

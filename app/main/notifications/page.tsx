@@ -49,9 +49,6 @@ export default function NotificationsPage() {
     if (!notification.isRead) {
       markAsRead({ notificationId: notification._id as Id<"notifications"> });
     }
-    if (notification.relatedNoteId) {
-      router.push(`/main/newNotes?noteId=${notification.relatedNoteId}`);
-    }
   };
 
   const getIconForType = (type: string) => {

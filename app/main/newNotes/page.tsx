@@ -529,7 +529,9 @@ function NoteEditor({ editor }: { editor: Editor }) {
 
 // Page
 
-export default function NewNotesPage() {
+import { Suspense } from "react";
+
+function NewNotesContent() {
   const searchParams = useSearchParams();
   const noteIdFromUrl = searchParams.get("noteId");
 
@@ -544,8 +546,27 @@ export default function NewNotesPage() {
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [title, setTitle] = useState("");
   const router = useRouter();
-  const createNote = useMutation(api.notes.createNote);
-  const updateNotesMut = useMutation(api.notes.updateNotes);
+  const createNote = useMutation(api.notes.createNote).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      const newNote = {
+        _id: `temp_${Date.now()}` as any,
+        ...args,
+        createdAt: Date.now(),
+      };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getNotesList, {}, [newNote, ...existingNotes] as any);
+    }
+  });
+  const updateNotesMut = useMutation(api.notes.updateNotes).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
+        n._id === args.noteId ? { ...n, ...args, updatedAt: Date.now() } : n
+      ));
+    }
+  });
 
   const CACHE_KEY = noteId ? `note_${noteId}` : "notepad_draft_new";
 
@@ -606,30 +627,7 @@ export default function NewNotesPage() {
     }
   }, [note, CACHE_KEY]);
 
-  // STEP 3: Restore editor content instantly from cache, then update from Convex
-  useEffect(() => {
-    if (!editor) return;
 
-    if (CACHE_KEY) {
-      try {
-        // First: restore from localStorage instantly
-        const cached = localStorage.getItem(CACHE_KEY);
-        if (cached) {
-          const data = JSON.parse(cached);
-          if (data.body) {
-            editor.commands.setContent(data.body);
-          }
-        }
-      } catch (error) {
-        console.error("Failed to restore editor from cache:", error);
-      }
-    }
-
-    // Second: if Convex has fresher data, update from it
-    if (note?.body) {
-      editor.commands.setContent(note.body);
-    }
-  }, [CACHE_KEY, note?.body]);
 
   const autoSave = useCallback(async () => {
     if (!title.trim()) return;
@@ -727,23 +725,26 @@ export default function NewNotesPage() {
     };
 
     try {
-      let savedNoteId = noteId;
-
       if (noteId) {
-        await updateNotesMut({
+        updateNotesMut({
           noteId: noteId as any,
           ...notePayload,
         });
+        try {
+          localStorage.removeItem(`note_${noteId}`);
+        } catch (error) {}
       } else {
-        savedNoteId = await createNote(notePayload);
-        setNoteId(savedNoteId);
+        createNote(notePayload).then((savedNoteId) => {
+          try {
+            if (savedNoteId) {
+              localStorage.removeItem(`note_${savedNoteId}`);
+            }
+          } catch (error) {}
+        });
       }
 
       try {
         localStorage.removeItem("notepad_draft_new");
-        if (savedNoteId) {
-          localStorage.removeItem(`note_${savedNoteId}`);
-        }
         localStorage.removeItem(CACHE_KEY);
       } catch (error) {
         console.error("Failed to clear cache:", error);
@@ -817,6 +818,40 @@ export default function NewNotesPage() {
       debounceRef.current = setTimeout(autoSave, getAutoSaveIntervalMs());
     },
   });
+
+  const contentInitialized = useRef(false);
+
+  // STEP 3: Restore editor content instantly from cache, then update from Convex
+  useEffect(() => {
+    if (!editor) return;
+
+    if (CACHE_KEY && !contentInitialized.current) {
+      try {
+        // First: restore from localStorage instantly
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const data = JSON.parse(cached);
+          if (data.body && data.body !== "<p></p>") {
+            editor.commands.setContent(data.body);
+            contentInitialized.current = true;
+          }
+        }
+      } catch (error) {
+        console.error("Failed to restore editor from cache:", error);
+      }
+    }
+
+    // Second: if Convex has fresher data, update from it
+    if (note?.body && !contentInitialized.current) {
+      editor.commands.setContent(note.body);
+      contentInitialized.current = true;
+    }
+
+    // If it's a new note without any cache/convex data, mark initialized
+    if (!noteIdFromUrl && !contentInitialized.current) {
+      contentInitialized.current = true;
+    }
+  }, [CACHE_KEY, note?.body, editor, noteIdFromUrl]);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -950,28 +985,19 @@ export default function NewNotesPage() {
               className="cursor-pointer flex-1 sm:flex-none bg-purple-600 hover:bg-purple-700 text-white"
               onClick={handleSave}
             >
-              {saveStatus === "saving" && (
-                <>
-                  <span className="animate-spin mr-2">⏳</span>
-                  Saving...
-                </>
-              )}
-              {saveStatus === "saved" && (
-                <>
-                  <Check className="w-4 h-4 mr-2" />
-                  Saved
-                </>
-              )}
-              {saveStatus === "idle" && (
-                <>
-                  <Notebook className="w-4 h-4 mr-2" />
-                  Save Note
-                </>
-              )}
+              Save Note
             </Button>
           </div>
         </div>
       </div>
     </div>
+  );
+}
+
+export default function NewNotesPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <NewNotesContent />
+    </Suspense>
   );
 }

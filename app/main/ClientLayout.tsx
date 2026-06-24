@@ -251,22 +251,7 @@ const SidebarContent = ({
               <div className="px-2 py-1.5 mb-1">
                 <p className="text-xs text-muted-foreground font-medium uppercase tracking-wider">Account</p>
               </div>
-              <DropdownMenuItem
-                onClick={async () => {
-                  await authClient.signOut({
-                    fetchOptions: {
-                      onSuccess: () => {
-                        router.push("/auth/login");
-                      },
-                    },
-                  });
-                }}
-                className="flex items-center gap-2 cursor-pointer"
-              >
-                <ArrowLeftRight className="w-4 h-4" />
-                <span>Switch Account</span>
-              </DropdownMenuItem>
-              <div className="h-px bg-border my-1" />
+
               <DropdownMenuItem
                 onClick={async () => {
                   await authClient.signOut({

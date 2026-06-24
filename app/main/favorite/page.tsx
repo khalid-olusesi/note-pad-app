@@ -72,8 +72,24 @@ export default function Favorite() {
     return sortNotesList(notes ?? [], sortBy);
   }, [notes, sortBy]);
 
-  const favorite = useMutation(api.notes.toggleFavorite);
-  const trash = useMutation(api.notes.moveToTrash);
+  const favorite = useMutation(api.notes.toggleFavorite).withOptimisticUpdate((localStore, args) => {
+    const existingFavorites = localStore.getQuery(api.notes.getFavoriteNotes);
+    if (existingFavorites !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const note = existingFavorites.find((n: any) => n._id === args.noteId);
+      if (note) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(api.notes.getFavoriteNotes, {}, existingFavorites.filter((n: any) => n._id !== args.noteId));
+      }
+    }
+  });
+  const trash = useMutation(api.notes.moveToTrash).withOptimisticUpdate((localStore, args) => {
+    const existingFavorites = localStore.getQuery(api.notes.getFavoriteNotes);
+    if (existingFavorites !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getFavoriteNotes, {}, existingFavorites.filter((n: any) => n._id !== args.noteId));
+    }
+  });
 
   function handleFavorite(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

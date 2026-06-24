@@ -10,7 +10,6 @@ import SortNotes, { sortNotesList } from "@/components/sortNotes";
 import { Skeleton } from "@/components/ui/skeleton";
 import NoteCardMenu from "@/components/ui/note-card-menu";
 import { getRelativeTime, wasEdited } from "@/lib/time-utils";
-import { redirect } from "next/navigation";
 
 const cardThemes = [
   {
@@ -56,7 +55,7 @@ type Note = {
   updatedAt?: number;
 };
 
-export default function MainPage(userId: string) {
+function MainPageContent() {
   const searchParams = useSearchParams();
   const search = searchParams.get("q") || "";
   const highlightNoteId = searchParams.get("noteId");
@@ -67,14 +66,13 @@ export default function MainPage(userId: string) {
   const noteRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
 
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  useEffect(() => {
+  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
     const saved = localStorage.getItem("note-view-mode");
     if (saved === "grid" || saved === "list") {
-      setViewMode(saved);
+      return saved;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return "grid";
+  });
 
   const handleViewModeChange = (mode: "grid" | "list") => {
     setViewMode(mode);
@@ -122,10 +120,77 @@ export default function MainPage(userId: string) {
   }, [highlightNoteId, notes]);
 
   
-  const favorite = useMutation(api.notes.toggleFavorite);
-  const trash = useMutation(api.notes.moveToTrash);
-  const duplicate = useMutation(api.notes.duplicateNote);
-  const changeTag = useMutation(api.notes.changeTag);
+  const favorite = useMutation(api.notes.toggleFavorite).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
+        n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n
+      ));
+    }
+    const searchArgs = search ? { term: search, limit: 100 } : null;
+    if (searchArgs) {
+      const existingSearch = localStore.getQuery(api.notes.searchNotes, searchArgs);
+      if (existingSearch !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(api.notes.searchNotes, searchArgs, existingSearch.map((n: any) => 
+          n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n
+        ));
+      }
+    }
+  });
+  const trash = useMutation(api.notes.moveToTrash).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.filter((n: any) => n._id !== args.noteId));
+    }
+    const searchArgs = search ? { term: search, limit: 100 } : null;
+    if (searchArgs) {
+      const existingSearch = localStore.getQuery(api.notes.searchNotes, searchArgs);
+      if (existingSearch !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(api.notes.searchNotes, searchArgs, existingSearch.filter((n: any) => n._id !== args.noteId));
+      }
+    }
+  });
+  const duplicate = useMutation(api.notes.duplicateNote).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const noteToDuplicate = existingNotes.find((n: any) => n._id === args.noteId);
+      if (noteToDuplicate) {
+        const newNote = {
+          ...noteToDuplicate,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          _id: `temp_${Date.now()}` as any,
+          title: noteToDuplicate.title ? `${noteToDuplicate.title} (Copy)` : "Untitled Note (Copy)",
+          createdAt: Date.now(),
+        };
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(api.notes.getNotesList, {}, [newNote, ...existingNotes] as any);
+      }
+    }
+  });
+  const changeTag = useMutation(api.notes.changeTag).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
+        n._id === args.noteId ? { ...n, tag: args.tag } : n
+      ));
+    }
+    const searchArgs = search ? { term: search, limit: 100 } : null;
+    if (searchArgs) {
+      const existingSearch = localStore.getQuery(api.notes.searchNotes, searchArgs);
+      if (existingSearch !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(api.notes.searchNotes, searchArgs, existingSearch.map((n: any) => 
+          n._id === args.noteId ? { ...n, tag: args.tag } : n
+        ));
+      }
+    }
+  });
 
   function handleFavorite(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -146,9 +211,6 @@ export default function MainPage(userId: string) {
 
   function handleCardClick(noteId: string) {
     setEditingNoteId(noteId);
-  }
-    if (!userId) {
-    return redirect("/auth/login");
   }
 
   const formatDateTime = (timestamp: number) => {
@@ -233,7 +295,7 @@ export default function MainPage(userId: string) {
                   )}
                   <div className="space-y-2 mt-2">
                     <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" />
+                    <Skeleton className="h-4 w-5/6" /> 
                   </div>
                 </div>
                 {viewMode === "grid" && (
@@ -398,5 +460,19 @@ export default function MainPage(userId: string) {
         />
       )}
     </>
+  );
+}
+
+import { Suspense } from "react";
+
+export default function MainPage() {
+  return (
+    <Suspense fallback={
+      <div className="flex-1 p-4 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+      </div>
+    }>
+      <MainPageContent />
+    </Suspense>
   );
 }

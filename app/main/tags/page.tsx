@@ -51,8 +51,22 @@ const cardThemes = [
 
 export default function TagsPage() {
   const notes = useQuery(api.notes.getNotesList);
-  const favorite = useMutation(api.notes.toggleFavorite);
-  const trash = useMutation(api.notes.moveToTrash);
+  const favorite = useMutation(api.notes.toggleFavorite).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
+        n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n
+      ));
+    }
+  });
+  const trash = useMutation(api.notes.moveToTrash).withOptimisticUpdate((localStore, args) => {
+    const existingNotes = localStore.getQuery(api.notes.getNotesList);
+    if (existingNotes !== undefined) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.filter((n: any) => n._id !== args.noteId));
+    }
+  });
   
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState("latest");

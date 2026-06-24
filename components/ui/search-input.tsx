@@ -2,10 +2,10 @@
 
 import { Search} from "lucide-react";
 import { Input } from "./input";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { useRouter, usePathname, useSearchParams } from "next/navigation";
 
-export function SearchInput() {
+function SearchInputContent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -59,5 +59,13 @@ export function SearchInput() {
         )}
       </div>
     </div>
+  );
+}
+
+export function SearchInput() {
+  return (
+    <Suspense fallback={<div className="h-10 bg-muted/20 border border-border/80 rounded-xl animate-pulse w-full max-w-sm"></div>}>
+      <SearchInputContent />
+    </Suspense>
   );
 }

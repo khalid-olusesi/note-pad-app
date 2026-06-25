@@ -128,7 +128,7 @@ export default function TagsPage() {
 
   return (
     <div className="p-2">
-      <div className="flex items-center gap-3 mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
         <div className="text-blue-500 flex items-center justify-center rounded-lg bg-blue-500/10 w-8 h-8">
           <Tag className="w-4 h-4" />
         </div>
@@ -139,7 +139,7 @@ export default function TagsPage() {
       <div className="flex flex-wrap gap-2 mb-6">
         <button
           onClick={() => setSelectedTag(null)}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+          className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
             selectedTag === null
               ? "bg-foreground text-background"
               : "bg-muted hover:bg-muted/80 text-muted-foreground"
@@ -154,7 +154,7 @@ export default function TagsPage() {
             <button
               key={tag}
               onClick={() => setSelectedTag(tag)}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium transition-colors cursor-pointer ${
                 isActive
                   ? `${theme.pillBg} ${theme.pillText} ring-1 ring-current`
                   : `bg-muted hover:bg-muted/80 text-muted-foreground`
@@ -166,7 +166,7 @@ export default function TagsPage() {
         })}
       </div>
 
-      <div className="flex justify-between items-center gap-2 mb-6">
+      <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center mb-6">
         <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
 
         <div className="border border-border bg-muted/20 rounded-lg flex p-1 gap-1 items-center">
@@ -199,8 +199,8 @@ export default function TagsPage() {
         <div
           className={
             viewMode === "grid"
-              ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-              : "flex flex-col gap-4"
+              ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+              : "flex flex-col gap-3"
           }
         >
           {Array.from({ length: 6 }).map((_, i) => (
@@ -255,7 +255,7 @@ export default function TagsPage() {
           ))}
         </div>
       ) : sortedNotes.length === 0 ? (
-        <div className="flex flex-col items-center justify-center h-48 gap-3 text-muted-foreground">
+        <div className="flex flex-col items-center justify-center h-44 gap-3 text-muted-foreground px-2">
           <Tag className="w-12 h-12 opacity-30" />
           <p className="text-sm">No notes found for this tag</p>
         </div>
@@ -273,10 +273,10 @@ export default function TagsPage() {
             return (
               <div
                 key={note._id}
-                className={`flex bg-card/40 border border-border/50 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 ${
+                className={`flex bg-card/40 border border-border/50 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 ${
                   viewMode === "grid"
-                    ? "flex-col min-h-40 h-auto"
-                    : "flex-col md:flex-row gap-4 items-start md:items-center"
+                    ? "flex-col min-h-40 h-auto gap-3"
+                    : "flex-col md:flex-row gap-3 items-start md:items-center"
                 }`}
               >
                 {viewMode === "list" && note.coverImage && (
@@ -294,7 +294,7 @@ export default function TagsPage() {
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex flex-wrap items-center gap-2">
                         <h2
-                          className={`text-base font-semibold tracking-wide ${theme.title} line-clamp-1 pr-2`}
+                          className={`text-sm sm:text-base font-semibold tracking-wide ${theme.title} line-clamp-1 pr-2`}
                         >
                           {note.title || "Untitled Note"}
                         </h2>
@@ -354,10 +354,10 @@ export default function TagsPage() {
 
                 {/* Bottom Row / Right Column */}
                 <div
-                  className={`flex justify-between items-center text-xs text-muted-foreground/70 ${
+                  className={`flex flex-col gap-2 text-xs text-muted-foreground/70 ${
                     viewMode === "grid"
                       ? "mt-3 mb-0"
-                      : "w-full md:w-auto md:flex-col md:items-end gap-3 mt-4 md:mt-0 shrink-0 md:border-l border-border/30 md:pl-5 pt-3 md:pt-0"
+                      : "w-full md:w-auto md:flex-row md:items-center justify-between gap-3 mt-4 md:mt-0 shrink-0 md:border-l border-border/30 md:pl-5 pt-3 md:pt-0"
                   }`}
                 >
                   <p className="whitespace-nowrap">

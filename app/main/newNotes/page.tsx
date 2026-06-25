@@ -893,7 +893,7 @@ function NewNotesContent() {
   if (!editor) return null;
 
   return (
-    <div className="space-y-4 flex min-h-[calc(100vh-57px)] h-[calc(100vh-57px)] flex-col overflow-hidden">
+    <div className="space-y-4 flex min-h-[calc(100vh-57px)] flex-col overflow-y-auto">
       <div className="flex items-center gap-3 mt-6">
         <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-9 h-9">
           <Notebook className="w-4 h-4" />
@@ -910,7 +910,7 @@ function NewNotesContent() {
         />
       </form>
 
-      <div className="flex flex-1 min-h-0">
+      <div className="flex flex-1 min-h-[300px]">
         <NoteEditor editor={editor} />
       </div>
 

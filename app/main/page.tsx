@@ -79,10 +79,9 @@ function MainPageContent() {
     localStorage.setItem("note-view-mode", mode);
   };
 
-
   const notes = useQuery(
-
-    search ? { term: search, limit: 100 } : ({} as any),
+    search ? api.notes.searchNotes : api.notes.getNotesList,
+    search ? { term: search, limit: 100 } : undefined,
   );
 
   const sortedNotes = useMemo(() => {
@@ -118,78 +117,125 @@ function MainPageContent() {
     };
   }, [highlightNoteId, notes]);
 
-  
-  const favorite = useMutation(api.notes.toggleFavorite).withOptimisticUpdate((localStore, args) => {
-    const existingNotes = localStore.getQuery(api.notes.getNotesList);
-    if (existingNotes !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
-        n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n
-      ));
-    }
-    const searchArgs = search ? { term: search, limit: 100 } : null;
-    if (searchArgs) {
-      const existingSearch = localStore.getQuery(api.notes.searchNotes, searchArgs);
-      if (existingSearch !== undefined) {
+  const favorite = useMutation(api.notes.toggleFavorite).withOptimisticUpdate(
+    (localStore, args) => {
+      const existingNotes = localStore.getQuery(api.notes.getNotesList);
+      if (existingNotes !== undefined) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        localStore.setQuery(api.notes.searchNotes, searchArgs, existingSearch.map((n: any) => 
-          n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n
-        ));
+        localStore.setQuery(
+          api.notes.getNotesList,
+          {},
+          existingNotes.map((n: any) =>
+            n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n,
+          ),
+        );
       }
-    }
-  });
-  const trash = useMutation(api.notes.moveToTrash).withOptimisticUpdate((localStore, args) => {
-    const existingNotes = localStore.getQuery(api.notes.getNotesList);
-    if (existingNotes !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.filter((n: any) => n._id !== args.noteId));
-    }
-    const searchArgs = search ? { term: search, limit: 100 } : null;
-    if (searchArgs) {
-      const existingSearch = localStore.getQuery(api.notes.searchNotes, searchArgs);
-      if (existingSearch !== undefined) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        localStore.setQuery(api.notes.searchNotes, searchArgs, existingSearch.filter((n: any) => n._id !== args.noteId));
-      }
-    }
-  });
-  const duplicate = useMutation(api.notes.duplicateNote).withOptimisticUpdate((localStore, args) => {
-    const existingNotes = localStore.getQuery(api.notes.getNotesList);
-    if (existingNotes !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const noteToDuplicate = existingNotes.find((n: any) => n._id === args.noteId);
-      if (noteToDuplicate) {
-        const newNote = {
-          ...noteToDuplicate,
+      const searchArgs = search ? { term: search, limit: 100 } : null;
+      if (searchArgs) {
+        const existingSearch = localStore.getQuery(
+          api.notes.searchNotes,
+          searchArgs,
+        );
+        if (existingSearch !== undefined) {
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          _id: `temp_${Date.now()}` as any,
-          title: noteToDuplicate.title ? `${noteToDuplicate.title} (Copy)` : "Untitled Note (Copy)",
-          createdAt: Date.now(),
-        };
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        localStore.setQuery(api.notes.getNotesList, {}, [newNote, ...existingNotes] as any);
+          localStore.setQuery(
+            api.notes.searchNotes,
+            searchArgs,
+            existingSearch.map((n: any) =>
+              n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n,
+            ),
+          );
+        }
       }
-    }
-  });
-  const changeTag = useMutation(api.notes.changeTag).withOptimisticUpdate((localStore, args) => {
-    const existingNotes = localStore.getQuery(api.notes.getNotesList);
-    if (existingNotes !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
-        n._id === args.noteId ? { ...n, tag: args.tag } : n
-      ));
-    }
-    const searchArgs = search ? { term: search, limit: 100 } : null;
-    if (searchArgs) {
-      const existingSearch = localStore.getQuery(api.notes.searchNotes, searchArgs);
-      if (existingSearch !== undefined) {
+    },
+  );
+  const trash = useMutation(api.notes.moveToTrash).withOptimisticUpdate(
+    (localStore, args) => {
+      const existingNotes = localStore.getQuery(api.notes.getNotesList);
+      if (existingNotes !== undefined) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        localStore.setQuery(api.notes.searchNotes, searchArgs, existingSearch.map((n: any) => 
-          n._id === args.noteId ? { ...n, tag: args.tag } : n
-        ));
+        localStore.setQuery(
+          api.notes.getNotesList,
+          {},
+          existingNotes.filter((n: any) => n._id !== args.noteId),
+        );
       }
-    }
-  });
+      const searchArgs = search ? { term: search, limit: 100 } : null;
+      if (searchArgs) {
+        const existingSearch = localStore.getQuery(
+          api.notes.searchNotes,
+          searchArgs,
+        );
+        if (existingSearch !== undefined) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          localStore.setQuery(
+            api.notes.searchNotes,
+            searchArgs,
+            existingSearch.filter((n: any) => n._id !== args.noteId),
+          );
+        }
+      }
+    },
+  );
+  const duplicate = useMutation(api.notes.duplicateNote).withOptimisticUpdate(
+    (localStore, args) => {
+      const existingNotes = localStore.getQuery(api.notes.getNotesList);
+      if (existingNotes !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const noteToDuplicate = existingNotes.find(
+          (n: any) => n._id === args.noteId,
+        );
+        if (noteToDuplicate) {
+          const newNote = {
+            ...noteToDuplicate,
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            _id: `temp_${Date.now()}` as any,
+            title: noteToDuplicate.title
+              ? `${noteToDuplicate.title} (Copy)`
+              : "Untitled Note (Copy)",
+            createdAt: Date.now(),
+          };
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          localStore.setQuery(api.notes.getNotesList, {}, [
+            newNote,
+            ...existingNotes,
+          ] as any);
+        }
+      }
+    },
+  );
+  const changeTag = useMutation(api.notes.changeTag).withOptimisticUpdate(
+    (localStore, args) => {
+      const existingNotes = localStore.getQuery(api.notes.getNotesList);
+      if (existingNotes !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(
+          api.notes.getNotesList,
+          {},
+          existingNotes.map((n: any) =>
+            n._id === args.noteId ? { ...n, tag: args.tag } : n,
+          ),
+        );
+      }
+      const searchArgs = search ? { term: search, limit: 100 } : null;
+      if (searchArgs) {
+        const existingSearch = localStore.getQuery(
+          api.notes.searchNotes,
+          searchArgs,
+        );
+        if (existingSearch !== undefined) {
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          localStore.setQuery(
+            api.notes.searchNotes,
+            searchArgs,
+            existingSearch.map((n: any) =>
+              n._id === args.noteId ? { ...n, tag: args.tag } : n,
+            ),
+          );
+        }
+      }
+    },
+  );
 
   function handleFavorite(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -294,7 +340,7 @@ function MainPageContent() {
                   )}
                   <div className="space-y-2 mt-2">
                     <Skeleton className="h-4 w-full" />
-                    <Skeleton className="h-4 w-5/6" /> 
+                    <Skeleton className="h-4 w-5/6" />
                   </div>
                 </div>
                 {viewMode === "grid" && (
@@ -389,7 +435,10 @@ function MainPageContent() {
                     )}
                     <div
                       onClick={(e) => {
-                        if ((e.target as HTMLElement).tagName.toLowerCase() === 'input') {
+                        if (
+                          (e.target as HTMLElement).tagName.toLowerCase() ===
+                          "input"
+                        ) {
                           e.stopPropagation();
                         }
                       }}
@@ -466,11 +515,13 @@ import { Suspense } from "react";
 
 export default function MainPage() {
   return (
-    <Suspense fallback={
-      <div className="flex-1 p-4 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="flex-1 p-4 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-purple-500"></div>
+        </div>
+      }
+    >
       <MainPageContent />
     </Suspense>
   );

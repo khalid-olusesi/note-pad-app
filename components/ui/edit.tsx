@@ -565,7 +565,7 @@ export default function EditNote({
           </button>
         }
       />
-      <DialogContent className="sm:max-w-xl p-4 w-screen h-[100dvh] max-w-none sm:h-auto sm:w-full sm:rounded-xl rounded-none border-0 flex flex-col !top-[50%] sm:!top-[50%]">
+      <DialogContent className="sm:max-w-xl w-screen h-[100dvh] max-w-none sm:h-auto sm:w-full sm:rounded-xl rounded-none border-0 flex flex-col !top-[50%] sm:!top-[50%] p-0 bg-[#070708]">
         <DialogHeader className="sr-only">
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
@@ -580,7 +580,7 @@ export default function EditNote({
             <h1 className="text-lg font-semibold">Edit Note</h1>
           </div>
 
-          <form className="shrink-0">
+          <form className="shrink-0 px-4 pt-3">
             <input
               className="w-full border-b outline-0 p-2 text-sm font-medium"
               type="text"
@@ -628,11 +628,15 @@ export default function EditNote({
             </div>
           )}
 
-          <NoteEditor editor={editor} />
+          <div className="flex-1 min-h-0 overflow-y-auto">
+            <div className="p-4">
+              <NoteEditor editor={editor} />
+            </div>
+          </div>
 
           <div className="border shrink-0" />
 
-          <div className="flex items-center justify-end gap-3 mt-2 shrink-0 pb-4 sm:pb-0">
+          <div className="flex items-center justify-end gap-3 mt-2 shrink-0 pb-4 sm:pb-0 sticky bottom-0 bg-[#070708] px-4 pt-3">
             <Button
               variant="secondary"
               size="sm"

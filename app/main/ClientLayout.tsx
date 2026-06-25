@@ -469,75 +469,80 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0">
-        <header className="flex items-center justify-between p-3 px-4 border-b gap-4">
-          <div className="flex items-center gap-3">
+        <header className="flex flex-col gap-4 p-3 px-4 border-b">
+          <div className="flex items-center justify-between gap-3">
             <button
               onClick={() => setIsMobileMenuOpen(true)}
-              className="md:hidden p-1 rounded-md text-muted-foreground hover:bg-muted/50 cursor-pointer"
+              className="md:hidden p-1 rounded-md text-muted-foreground hover:bg-muted/50 cursor-pointer shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>
             <button
               onClick={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-              className="hidden md:flex p-1 rounded-md text-muted-foreground hover:bg-muted/50 cursor-pointer"
+              className="hidden md:flex p-1 rounded-md text-muted-foreground hover:bg-muted/50 cursor-pointer shrink-0"
             >
               <Menu className="w-5 h-5" />
             </button>
-            <div className="md:hidden">
-              <AppLogo />
+
+            {isNewNotesPage || isUtilityPage ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.push("/main")}
+                className="cursor-pointer border-0 flex items-center"
+              >
+                <ArrowLeft />
+                Back to Notes
+              </Button>
+            ) : (
+              <div className="flex-1 min-w-0 w-full max-w-md">
+                <SearchInput />
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-2 sm:gap-4 ml-auto shrink-0">
+              {showSaved && (
+                <div className="hidden md:flex items-center gap-2 text-muted-foreground text-sm">
+                  <CircleCheck className="w-4 h-4 text-green-500" />
+                  <span>Saved just now</span>
+                </div>
+              )}
+              <div className="hidden md:block">
+                <ModeToggle />
+              </div>
+
+              {isNewNotesPage ? null : (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="text-muted-foreground relative cursor-pointer"
+                    onClick={() => router.push("/main/notifications")}
+                  >
+                    <Bell className="w-5 h-5" />
+                    {unreadNotificationsCount > 0 && (
+                      <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                      </span>
+                    )}
+                  </Button>
+                  <Button
+                    onClick={() => router.push("/main/newNotes")}
+                    className="bg-purple-600 hover:bg-purple-700 text-white cursor-pointer px-3 sm:px-4"
+                  >
+                    <Plus className="w-4 h-4 sm:mr-2" />
+                    <span className="hidden sm:inline">New Note</span>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 
-          {isNewNotesPage || isUtilityPage ? (
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => router.push("/main")}
-              className="cursor-pointer border-0 flex items-center"
-            >
-              <ArrowLeft />
-              Back to Notes
-            </Button>
-          ) : (
-            <div className="flex-1 min-w-0 w-full max-w-md">
-              <SearchInput />
-            </div>
-          )}
-
-          <div className="flex items-center justify-end gap-3 sm:gap-4 ml-auto">
-            {showSaved && (
-              <div className="flex items-center gap-2 text-muted-foreground text-sm">
-                <CircleCheck className="w-4 h-4 text-green-500" />
-                <span>Saved just now</span>
-              </div>
-            )}
+          {/* Mobile Second Row */}
+          <div className="md:hidden flex items-center justify-between">
+            <AppLogo />
             <ModeToggle />
-
-            {isNewNotesPage ? null : (
-              <>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-muted-foreground relative cursor-pointer"
-                  onClick={() => router.push("/main/notifications")}
-                >
-                  <Bell className="w-5 h-5" />
-                  {unreadNotificationsCount > 0 && (
-                    <span className="absolute top-1.5 right-1.5 flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
-                    </span>
-                  )}
-                </Button>
-                <Button
-                  onClick={() => router.push("/main/newNotes")}
-                  className="bg-purple-600 hover:bg-purple-700 text-white cursor-pointer px-3 sm:px-4"
-                >
-                  <Plus className="w-4 h-4 mr-0 sm:mr-2" />
-                  <span className="hidden sm:inline">New Note</span>
-                </Button>
-              </>
-            )}
           </div>
         </header>
 

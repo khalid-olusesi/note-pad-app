@@ -274,14 +274,14 @@ function MainPageContent() {
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
         <div className="space-y-1.5">
           <div className="flex items-center gap-3">
             <Notebook className="w-6 h-6 text-purple-500" />
-            <h1 className="text-xl font-semibold">All Notes</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold">All Notes</h1>
           </div>
           <div>
-            <div className="text-muted-foreground text-sm mb-3">
+            <div className="text-muted-foreground text-sm sm:text-base mb-3">
               {notes ? (
                 `${notes.length} note${notes.length === 1 ? "" : "s"} ${search ? "found" : "in total"}`
               ) : (
@@ -290,9 +290,9 @@ function MainPageContent() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between items-center gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
           <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
-          <div className="border border-border bg-muted/20 rounded-lg flex p-1 gap-1 items-center">
+          <div className="border border-border bg-muted/20 rounded-xl flex p-1 gap-1 items-center">
             <button
               onClick={() => handleViewModeChange("grid")}
               className={`p-1.5 rounded-md transition-colors cursor-pointer ${viewMode === "grid" ? "bg-purple-600 text-white shadow-sm" : "hover:bg-muted text-muted-foreground"}`}
@@ -314,8 +314,8 @@ function MainPageContent() {
       <div
         className={
           viewMode === "grid"
-            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-2"
-            : "flex flex-col gap-4 p-2"
+            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2"
+            : "flex flex-col gap-3 p-2"
         }
       >
         {notes === undefined ? (
@@ -385,7 +385,7 @@ function MainPageContent() {
                 } ${viewMode === "grid" ? "flex-col min-h-40 h-auto" : "flex-col md:flex-row gap-4 items-start md:items-center"}`}
               >
                 {viewMode === "list" && note.coverImage && (
-                  <div className="w-full md:w-24 h-20 rounded-lg overflow-hidden border border-border/30 shrink-0">
+                  <div className="w-full md:w-24 h-20 rounded-lg overflow-hidden border border-border/30 shrink-0 hidden sm:block">
                     <img
                       src={note.coverImage}
                       alt="Cover"
@@ -398,7 +398,7 @@ function MainPageContent() {
                     <div className="flex justify-between items-start mb-2">
                       <div className="flex flex-wrap items-center gap-2">
                         <h2
-                          className={`text-base font-semibold tracking-wide ${theme.title} line-clamp-1 pr-2`}
+                          className={`text-base sm:text-lg font-semibold tracking-wide ${theme.title} line-clamp-1 pr-2`}
                         >
                           {note.title || "Untitled Note"}
                         </h2>
@@ -442,7 +442,7 @@ function MainPageContent() {
                           e.stopPropagation();
                         }
                       }}
-                      className={`text-sm text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-24 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" : "max-h-32 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"}`}
+                      className={`text-sm text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-24 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" : "max-h-28 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"}`}
                       dangerouslySetInnerHTML={{ __html: note.body }}
                     />
                   </div>
@@ -457,11 +457,11 @@ function MainPageContent() {
                   )}
                 </div>
                 <div
-                  className={`flex justify-between items-center text-xs text-muted-foreground/70 ${viewMode === "grid" ? "mt-3 mb-0" : "w-full md:w-auto md:flex-col md:items-end gap-3 mt-4 md:mt-0 shrink-0 md:border-l border-border/30 md:pl-5 pt-3 md:pt-0"}`}
+                  className={`flex flex-col gap-2 text-xs text-muted-foreground/70 ${viewMode === "grid" ? "mt-3 mb-0" : "w-full sm:w-auto sm:flex-row sm:items-center justify-between gap-2 mt-3 sm:mt-0 shrink-0 sm:border-l border-border/30 sm:pl-5 pt-3 sm:pt-0"}`}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex flex-col gap-0.5">
-                    <p className="whitespace-nowrap">
+                    <p className="whitespace-nowrap text-[11px] sm:text-xs">
                       {formatDateTime(note.createdAt)}
                     </p>
                     {wasEdited(note.createdAt, note.updatedAt) && (

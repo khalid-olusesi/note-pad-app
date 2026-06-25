@@ -51,23 +51,35 @@ const cardThemes = [
 
 export default function TagsPage() {
   const notes = useQuery(api.notes.getNotesList);
-  const favorite = useMutation(api.notes.toggleFavorite).withOptimisticUpdate((localStore, args) => {
-    const existingNotes = localStore.getQuery(api.notes.getNotesList);
-    if (existingNotes !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.map((n: any) => 
-        n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n
-      ));
-    }
-  });
-  const trash = useMutation(api.notes.moveToTrash).withOptimisticUpdate((localStore, args) => {
-    const existingNotes = localStore.getQuery(api.notes.getNotesList);
-    if (existingNotes !== undefined) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      localStore.setQuery(api.notes.getNotesList, {}, existingNotes.filter((n: any) => n._id !== args.noteId));
-    }
-  });
-  
+  const favorite = useMutation(api.notes.toggleFavorite).withOptimisticUpdate(
+    (localStore, args) => {
+      const existingNotes = localStore.getQuery(api.notes.getNotesList);
+      if (existingNotes !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(
+          api.notes.getNotesList,
+          {},
+          existingNotes.map((n: any) =>
+            n._id === args.noteId ? { ...n, isFavorite: !n.isFavorite } : n,
+          ),
+        );
+      }
+    },
+  );
+  const trash = useMutation(api.notes.moveToTrash).withOptimisticUpdate(
+    (localStore, args) => {
+      const existingNotes = localStore.getQuery(api.notes.getNotesList);
+      if (existingNotes !== undefined) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        localStore.setQuery(
+          api.notes.getNotesList,
+          {},
+          existingNotes.filter((n: any) => n._id !== args.noteId),
+        );
+      }
+    },
+  );
+
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState("latest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
@@ -110,18 +122,23 @@ export default function TagsPage() {
   };
 
   // Map notes to include their derived tag
-  const notesWithTags = notes ? notes.map((note) => ({
-    ...note,
-    theme: cardThemes.find((t) => t.tag === note.tag) || cardThemes[0],
-  })) : undefined;
+  const notesWithTags = notes
+    ? notes.map((note) => ({
+        ...note,
+        theme: cardThemes.find((t) => t.tag === note.tag) || cardThemes[0],
+      }))
+    : undefined;
 
   // Filter by tag first
-  const filteredNotes = selectedTag && notesWithTags
-    ? notesWithTags.filter((n) => n.tag === selectedTag)
-    : notesWithTags;
+  const filteredNotes =
+    selectedTag && notesWithTags
+      ? notesWithTags.filter((n) => n.tag === selectedTag)
+      : notesWithTags;
 
   // Then sort
-  const sortedNotes = filteredNotes ? sortNotesList(filteredNotes, sortBy) : undefined;
+  const sortedNotes = filteredNotes
+    ? sortNotesList(filteredNotes, sortBy)
+    : undefined;
 
   // Unique tags for the filter buttons
   const uniqueTags = Array.from(new Set(cardThemes.map((t) => t.tag)));

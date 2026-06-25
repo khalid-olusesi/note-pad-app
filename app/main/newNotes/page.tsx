@@ -915,17 +915,17 @@ function NewNotesContent() {
       </div>
 
       <div className="introduction overflow-y-auto pr-1">
-        <h2 className="text-lg font-semibold w-50 leading-8">
+        <h2 className="text-base sm:text-lg font-semibold w-50 leading-8">
           Welcome to your new note!
         </h2>
-        <p className="mt-3 text-muted-foreground text-sm">
+        <p className="mt-3 text-muted-foreground text-xs sm:text-sm">
           This is your space. Write anything you want.
         </p>
-        <p className="mt-3 text-muted-foreground mb-3 text-sm">
+        <p className="mt-3 text-muted-foreground mb-3 text-xs sm:text-sm">
           You can format text like in Microsoft Word.
         </p>
 
-        <ul className="list-disc pl-5 space-y-2 text-sm text-muted-foreground">
+        <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm text-muted-foreground">
           <li>
             <span className="font-bold text-foreground">Bold</span>,{" "}
             <span className="italic">italic</span>, and{" "}
@@ -937,7 +937,7 @@ function NewNotesContent() {
           <li>
             <span className="inline-flex items-center gap-2">
               Insert images
-              <Images className="w-4 h-4" />
+              <Images className="w-3 h-3 sm:w-4 sm:h-4" />
             </span>
           </li>
           <li>Create lists</li>
@@ -949,8 +949,8 @@ function NewNotesContent() {
 
       {/* Example to-do list */}
       <div className="second-intro hidden sm:block">
-        <h2 className="flex gap-2 text-lg font-semibold items-center">
-          Example: To-do List <SquareCheck />
+        <h2 className="flex gap-2 text-base sm:text-lg font-semibold items-center">
+          Example: To-do List <SquareCheck className="w-4 h-4 sm:w-5 sm:h-5" />
         </h2>
 
         {[
@@ -961,47 +961,47 @@ function NewNotesContent() {
         ].map(({ label, done }) => (
           <div
             key={label}
-            className="flex items-center text-muted-foreground text-sm gap-4 mt-2"
+            className="flex items-center text-muted-foreground text-xs sm:text-sm gap-4 mt-2"
           >
             <div
               className={`${
                 done ? "bg-purple-500" : "border-2 border-gray-600"
-              } rounded h-4 w-4 flex items-center justify-center`}
+              } rounded h-3 w-3 sm:h-4 sm:w-4 flex items-center justify-center`}
             >
-              {done && <Check className="h-3 w-3" />}
+              {done && <Check className="h-2 w-2 sm:h-3 sm:w-3" />}
             </div>
             <p>{label}</p>
           </div>
         ))}
+      </div>
 
-        <div className="flex flex-col sm:flex-row text-sm text-muted-foreground justify-between items-start sm:items-center gap-4 mt-6">
-          <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
-            <p>
-              Words:{" "}
-              {editor.getText().trim()
-                ? editor.getText().trim().split(/\s+/).length
-                : 0}
-            </p>
-            <p>Characters: {editor.getText().length}</p>
-          </div>
+      <div className="flex flex-col sm:flex-row text-xs sm:text-sm text-muted-foreground justify-between items-start sm:items-center gap-4 mt-2 sm:mt-6 pb-6">
+        <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
+          <p>
+            Words:{" "}
+            {editor.getText().trim()
+              ? editor.getText().trim().split(/\s+/).length
+              : 0}
+          </p>
+          <p>Characters: {editor.getText().length}</p>
+        </div>
 
-          <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
-            <Button
-              type="button"
-              className="cursor-pointer flex-1 sm:flex-none"
-              variant="outline"
-              onClick={() => router.push("/main")}
-            >
-              Cancel
-            </Button>
-            <Button
-              type="button"
-              className="cursor-pointer flex-1 sm:flex-none bg-purple-600 hover:bg-purple-700 text-white"
-              onClick={handleSave}
-            >
-              Save Note
-            </Button>
-          </div>
+        <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
+          <Button
+            type="button"
+            className="cursor-pointer flex-1 sm:flex-none h-9 sm:h-10 text-xs sm:text-sm"
+            variant="outline"
+            onClick={() => router.push("/main")}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="button"
+            className="cursor-pointer flex-1 sm:flex-none bg-purple-600 hover:bg-purple-700 text-white h-9 sm:h-10 text-xs sm:text-sm"
+            onClick={handleSave}
+          >
+            Save Note
+          </Button>
         </div>
       </div>
     </div>

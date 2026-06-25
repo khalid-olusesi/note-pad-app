@@ -66,16 +66,8 @@ export default function SignUp() {
         fetchOptions: {
           onSuccess: async () => {
             toast.success("account created successfully");
-            // Send verification email
-            try {
-              await authClient.sendVerificationEmail({
-                email: data.email,
-              });
-            } catch (error) {
-              console.error("Failed to send verification email:", error);
-            }
             setTimeout(() => {
-              router.push("/auth/verify-email");
+              router.push("/main");
             }, 500);
           },
 

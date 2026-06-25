@@ -81,7 +81,7 @@ function MainPageContent() {
 
   const notes = useQuery(
     search ? api.notes.searchNotes : api.notes.getNotesList,
-    search ? { term: search, limit: 100 } : undefined,
+    search ? { term: search, limit: 100 } : {},
   );
 
   const sortedNotes = useMemo(() => {

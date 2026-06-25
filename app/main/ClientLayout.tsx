@@ -472,7 +472,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       <div className="flex-1 flex flex-col min-w-0">
         <header className="flex flex-col gap-3 p-3 sm:p-4 border-b bg-background/95 shadow-sm">
           <div className="flex items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 min-w-0">
               <button
                 onClick={() => setIsMobileMenuOpen(true)}
                 className="md:hidden p-2 rounded-2xl text-muted-foreground hover:bg-muted/50 cursor-pointer"
@@ -485,16 +485,18 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               >
                 <Menu className="w-5 h-5" />
               </button>
-              <div className="hidden md:block">
-                <AppLogo />
-              </div>
-              <div className="min-w-0">
-                <p className="text-sm font-semibold text-foreground">KhalNotes</p>
-                <p className="text-[11px] text-muted-foreground">All your notes in one place</p>
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-10 h-10 rounded-3xl bg-purple-500/10 flex items-center justify-center">
+                  <Notebook className="w-5 h-5 text-purple-400" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-semibold text-foreground truncate">KhalNotes</p>
+                  <p className="text-[11px] text-muted-foreground truncate">All your notes in one place</p>
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 ml-auto">
+            <div className="flex items-center gap-2">
               <Button
                 variant="ghost"
                 size="icon"

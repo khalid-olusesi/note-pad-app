@@ -315,12 +315,12 @@ function MainPageContent() {
         </div>
       </div>
 
-      <div className={viewMode === "grid" ? "grid grid-cols-1 gap-4 p-1" : "flex flex-col gap-3 p-1"}>
+      <div className={viewMode === "grid" ? "grid grid-cols-1 sm:grid-cols-2 gap-4 p-1" : "flex flex-col gap-3 p-1"}>
         {notes === undefined ? (
           Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className={`flex flex-col bg-card/90 border border-border/30 rounded-[1.75rem] p-4 shadow-sm ${viewMode === "grid" ? "min-h-72" : "md:flex-row gap-4 items-start md:items-center"}`}
+              className={`flex flex-col bg-card/80 border border-border/30 rounded-[1.5rem] p-4 shadow-sm ${viewMode === "grid" ? "min-h-72 gap-4" : "md:flex-row gap-4 items-start md:items-center"}`}
             >
               {viewMode === "list" && (
                 <Skeleton className="w-full md:w-24 h-20 rounded-2xl shrink-0" />
@@ -407,7 +407,7 @@ function MainPageContent() {
                       <div className="flex items-center gap-2">
                         {viewMode !== "grid" && (
                           <span
-                            className={`inline-flex px-2 py-1 rounded-full text-[10px] font-medium ${theme.pillBg} ${theme.pillText}`}
+                            className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-medium ${theme.pillBg} ${theme.pillText}`}
                           >
                             {note.tag || "Ideas"}
                           </span>

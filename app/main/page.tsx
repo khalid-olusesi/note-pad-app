@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useEffect, useMemo, useRef, Suspense } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Star, LayoutGrid, List, Notebook } from "lucide-react";
@@ -309,6 +309,7 @@ function MainPageContent() {
               <List className="w-4 h-4" />
             </button>
           </div>
+          </div>
         </div>
       </div>
 
@@ -371,6 +372,10 @@ function MainPageContent() {
           sortedNotes?.map((note) => {
             const theme =
               cardThemes.find((t) => t.tag === note.tag) || cardThemes[0];
+            const rightColumnClass =
+              viewMode === "grid"
+                ? "mt-3 mb-0"
+                : "w-full sm:w-auto sm:flex-row sm:items-center justify-between gap-2 mt-3 sm:mt-0 shrink-0 sm:border-l border-border/30 sm:pl-5 pt-3 sm:pt-0";
             return (
               <div
                 key={note._id}
@@ -430,20 +435,6 @@ function MainPageContent() {
                         )}
                       </div>
                     </div>
-                      {viewMode === "grid" && (
-                        <Star
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleFavorite(note._id);
-                          }}
-                          className={
-                            note.isFavorite
-                              ? "w-5 h-5 shrink-0 text-yellow-500 fill-yellow-500 cursor-pointer"
-                              : "w-5 h-5 shrink-0 cursor-pointer text-muted-foreground/60 hover:text-foreground"
-                          }
-                        />
-                      )}
-                    </div>
                     {viewMode === "grid" && note.coverImage && (
                       <div className="w-full h-24 rounded-lg overflow-hidden mb-3 border border-border/30">
                         <img
@@ -477,7 +468,7 @@ function MainPageContent() {
                   )}
                 </div>
                 <div
-                  className={`flex flex-col gap-2 text-xs text-muted-foreground/70 ${viewMode === "grid" ? "mt-3 mb-0" : "w-full sm:w-auto sm:flex-row sm:items-center justify-between gap-2 mt-3 sm:mt-0 shrink-0 sm:border-l border-border/30 sm:pl-5 pt-3 sm:pt-0"}`}
+                  className={"flex flex-col gap-2 text-xs text-muted-foreground/70 " + rightColumnClass}
                   onClick={(e) => e.stopPropagation()}
                 >
                   <div className="flex flex-col gap-0.5">

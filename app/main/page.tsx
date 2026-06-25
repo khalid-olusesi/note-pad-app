@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo, useRef } from "react";
+import { Suspense, useState, useEffect, useMemo, useRef } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Star, LayoutGrid, List, Notebook } from "lucide-react";
@@ -274,69 +274,67 @@ function MainPageContent() {
 
   return (
     <>
-      <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-center">
-        <div className="space-y-1.5">
-          <div className="flex items-center gap-3">
-            <Notebook className="w-6 h-6 text-purple-500" />
-            <h1 className="text-xl sm:text-2xl font-semibold">All Notes</h1>
-          </div>
-          <div>
-            <div className="text-muted-foreground text-sm sm:text-base mb-3">
-              {notes ? (
-                `${notes.length} note${notes.length === 1 ? "" : "s"} ${search ? "found" : "in total"}`
-              ) : (
-                <Skeleton className="w-32 h-5" />
-              )}
+      <div className="rounded-[1.75rem] border border-border/30 bg-card/90 p-3 sm:p-4 mb-4 shadow-sm">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="min-w-0">
+            <div className="flex items-center gap-3">
+              <Notebook className="w-5 h-5 text-purple-400" />
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-xl font-semibold truncate">All Notes</h1>
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 truncate">
+                  {notes ? (
+                    `${notes.length} note${notes.length === 1 ? "" : "s"} ${search ? "found" : "in total"}`
+                  ) : (
+                    <Skeleton className="w-24 h-4" />
+                  )}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
-          <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
-          <div className="border border-border bg-muted/20 rounded-xl flex p-1 gap-1 items-center">
-            <button
-              onClick={() => handleViewModeChange("grid")}
-              className={`p-1.5 rounded-md transition-colors cursor-pointer ${viewMode === "grid" ? "bg-purple-600 text-white shadow-sm" : "hover:bg-muted text-muted-foreground"}`}
-              title="Grid view"
-            >
-              <LayoutGrid className="w-4 h-4" />
-            </button>
-            <button
-              onClick={() => handleViewModeChange("list")}
-              className={`p-1.5 rounded-md transition-colors cursor-pointer ${viewMode === "list" ? "bg-purple-600 text-white shadow-sm" : "hover:bg-muted text-muted-foreground"}`}
-              title="List view"
-            >
-              <List className="w-4 h-4" />
-            </button>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end w-full">
+            <div className="w-full sm:w-auto">
+              <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
+            </div>
+            <div className="border border-border/30 bg-muted/20 rounded-2xl flex p-1 gap-1 items-center w-full sm:w-auto justify-between">
+              <button
+                onClick={() => handleViewModeChange("grid")}
+                className={`flex-1 p-1.5 rounded-xl transition-colors cursor-pointer ${viewMode === "grid" ? "bg-purple-600 text-white shadow-sm" : "hover:bg-muted text-muted-foreground"}`}
+                title="Grid view"
+              >
+                <LayoutGrid className="w-4 h-4 mx-auto" />
+              </button>
+              <button
+                onClick={() => handleViewModeChange("list")}
+                className={`flex-1 p-1.5 rounded-xl transition-colors cursor-pointer ${viewMode === "list" ? "bg-purple-600 text-white shadow-sm" : "hover:bg-muted text-muted-foreground"}`}
+                title="List view"
+              >
+                <List className="w-4 h-4 mx-auto" />
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div
-        className={
-          viewMode === "grid"
-            ? "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2"
-            : "flex flex-col gap-3 p-2"
-        }
-      >
+      <div className={viewMode === "grid" ? "grid grid-cols-1 gap-4 p-1" : "flex flex-col gap-3 p-1"}>
         {notes === undefined ? (
           Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className={`flex bg-card/40 border border-border/50 rounded-xl p-4 shadow-sm ${viewMode === "grid" ? "flex-col min-h-40 h-auto" : "flex-col md:flex-row gap-5 items-start md:items-center"}`}
+              className={`flex flex-col bg-card/90 border border-border/30 rounded-[1.75rem] p-4 shadow-sm ${viewMode === "grid" ? "min-h-72" : "md:flex-row gap-4 items-start md:items-center"}`}
             >
               {viewMode === "list" && (
-                <Skeleton className="w-full md:w-24 h-20 rounded-lg shrink-0" />
+                <Skeleton className="w-full md:w-24 h-20 rounded-2xl shrink-0" />
               )}
               <div className="flex-1 min-w-0 flex flex-col justify-between h-full w-full">
                 <div>
-                  <div className="flex justify-between items-start mb-2">
+                  <div className="flex justify-between items-start gap-3 mb-3">
                     <Skeleton className="h-6 w-1/2" />
                     {viewMode === "grid" && (
                       <Skeleton className="w-5 h-5 rounded-full" />
                     )}
                   </div>
                   {viewMode === "grid" && (
-                    <Skeleton className="w-full h-24 rounded-lg mb-3" />
+                    <Skeleton className="w-full h-24 rounded-3xl mb-3" />
                   )}
                   <div className="space-y-2 mt-2">
                     <Skeleton className="h-4 w-full" />
@@ -344,13 +342,13 @@ function MainPageContent() {
                   </div>
                 </div>
                 {viewMode === "grid" && (
-                  <div className="mt-4 mb-4">
+                  <div className="mt-4 mb-2">
                     <Skeleton className="h-6 w-16 rounded-full" />
                   </div>
                 )}
               </div>
               <div
-                className={`flex justify-between items-center ${viewMode === "grid" ? "mt-3 mb-0" : "w-full md:w-auto md:flex-col md:items-end gap-3 mt-4 md:mt-0 shrink-0 md:border-l border-border/30 md:pl-5 pt-3 md:pt-0"}`}
+                className={`flex justify-between items-center ${viewMode === "grid" ? "mt-3" : "w-full md:w-auto md:flex-col md:items-end gap-3 mt-4 md:mt-0 shrink-0 md:border-l border-border/30 md:pl-5 pt-3 md:pt-0"}`}
               >
                 <Skeleton className="h-4 w-24" />
                 <div className="flex gap-3">
@@ -378,14 +376,14 @@ function MainPageContent() {
                   else noteRefs.current.delete(note._id);
                 }}
                 onClick={() => handleCardClick(note._id)}
-                className={`flex bg-card/40 border rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer ${
+                className={`flex flex-col bg-card/90 border border-border/30 rounded-[1.75rem] p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer ${
                   highlightedNoteId === note._id
                     ? "border-purple-500 ring-2 ring-purple-500/40 shadow-lg shadow-purple-500/10"
-                    : "border-border/50"
-                } ${viewMode === "grid" ? "flex-col min-h-40 h-auto" : "flex-col md:flex-row gap-4 items-start md:items-center"}`}
+                    : "border-border/30"
+                } ${viewMode === "grid" ? "gap-3" : "md:flex-row gap-3 items-start md:items-center"}`}
               >
                 {viewMode === "list" && note.coverImage && (
-                  <div className="w-full md:w-24 h-20 rounded-lg overflow-hidden border border-border/30 shrink-0 hidden sm:block">
+                  <div className="w-full sm:w-24 h-20 rounded-lg overflow-hidden border border-border/30 shrink-0 hidden sm:block">
                     <img
                       src={note.coverImage}
                       alt="Cover"
@@ -394,38 +392,43 @@ function MainPageContent() {
                   </div>
                 )}
                 <div className="flex-1 min-w-0 flex flex-col justify-between h-full">
-                  <div>
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex flex-wrap items-center gap-2">
+                  <div className="space-y-3">
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div className="min-w-0 space-y-1">
                         <h2
                           className={`text-base sm:text-lg font-semibold tracking-wide ${theme.title} line-clamp-1 pr-2`}
                         >
                           {note.title || "Untitled Note"}
                         </h2>
-                        {viewMode === "list" && (
+                        <p className="text-xs text-muted-foreground line-clamp-1">
+                          {note.body ? note.body.replace(/<[^>]+>/g, "") : "No preview available"}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {viewMode !== "grid" && (
                           <span
-                            className={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-medium ${theme.pillBg} ${theme.pillText}`}
+                            className={`inline-flex px-2 py-1 rounded-full text-[10px] font-medium ${theme.pillBg} ${theme.pillText}`}
                           >
                             {note.tag || "Ideas"}
                           </span>
                         )}
+                        {viewMode === "grid" && (
+                          <Star
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleFavorite(note._id);
+                            }}
+                            className={
+                              note.isFavorite
+                                ? "w-5 h-5 text-yellow-400 fill-yellow-400 cursor-pointer"
+                                : "w-5 h-5 text-muted-foreground/70 hover:text-foreground cursor-pointer"
+                            }
+                          />
+                        )}
                       </div>
-                      {viewMode === "grid" && (
-                        <Star
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleFavorite(note._id);
-                          }}
-                          className={
-                            note.isFavorite
-                              ? "w-5 h-5 shrink-0 text-yellow-500 fill-yellow-500 cursor-pointer"
-                              : "w-5 h-5 shrink-0 cursor-pointer text-muted-foreground/60 hover:text-foreground"
-                          }
-                        />
-                      )}
                     </div>
                     {viewMode === "grid" && note.coverImage && (
-                      <div className="w-full h-24 rounded-lg overflow-hidden mb-3 border border-border/30">
+                      <div className="w-full h-24 rounded-3xl overflow-hidden border border-border/30">
                         <img
                           src={note.coverImage}
                           alt="Cover"
@@ -442,12 +445,12 @@ function MainPageContent() {
                           e.stopPropagation();
                         }
                       }}
-                      className={`text-sm text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-24 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" : "max-h-28 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"}`}
+                      className={`text-sm text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-20 overflow-y-auto scrollbar-none" : "max-h-28 overflow-y-auto scrollbar-none"}`}
                       dangerouslySetInnerHTML={{ __html: note.body }}
                     />
                   </div>
                   {viewMode === "grid" && (
-                    <div className="mt-3 mb-4">
+                    <div className="mt-3">
                       <span
                         className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${theme.pillBg} ${theme.pillText}`}
                       >
@@ -510,8 +513,6 @@ function MainPageContent() {
     </>
   );
 }
-
-import { Suspense } from "react";
 
 export default function MainPage() {
   return (

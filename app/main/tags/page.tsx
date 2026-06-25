@@ -186,7 +186,7 @@ export default function TagsPage() {
       <div className="flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center mb-6">
         <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
 
-        <div className="border border-border bg-muted/20 rounded-lg flex p-1 gap-1 items-center">
+        <div className="border border-border bg-muted/20 rounded-lg flex p-1 gap-1 items-center w-fit">
           <button
             onClick={() => handleViewModeChange("grid")}
             className={`p-1.5 rounded-md transition-colors cursor-pointer ${

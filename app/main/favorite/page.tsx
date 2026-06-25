@@ -129,7 +129,7 @@ export default function Favorite() {
       <div className="flex justify-between items-center gap-2 mb-6">
         <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
 
-        <div className="border border-border bg-muted/20 rounded-lg flex p-1 gap-1 items-center">
+        <div className="border border-border bg-muted/20 rounded-lg flex p-1 gap-1 items-center w-fit">
           <button
             onClick={() => handleViewModeChange("grid")}
             className={`p-1.5 rounded-md transition-colors cursor-pointer ${

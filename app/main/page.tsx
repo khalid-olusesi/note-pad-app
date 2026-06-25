@@ -293,7 +293,7 @@ function MainPageContent() {
           </div>
           <div className="flex flex-wrap gap-2 items-center justify-start sm:justify-end">
             <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
-            <div className="border border-border bg-muted/20 rounded-2xl flex p-1 gap-1 items-center">
+            <div className="border border-border bg-muted/20 rounded-2xl flex p-1 gap-1 items-center w-fit">
             <button
               onClick={() => handleViewModeChange("grid")}
               className={`p-1.5 rounded-md transition-colors cursor-pointer ${viewMode === "grid" ? "bg-purple-600 text-white shadow-sm" : "hover:bg-muted text-muted-foreground"}`}

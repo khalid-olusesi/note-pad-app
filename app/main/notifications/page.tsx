@@ -18,11 +18,11 @@ export default function NotificationsPage() {
     return (
       <div className="max-w-4xl mx-auto space-y-6">
         <div className="flex items-center justify-between mt-2">
-          <div className="flex items-center gap-3">
-            <div className="bg-muted p-2 rounded-lg">
-              <Bell className="w-5 h-5 text-foreground" />
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="bg-muted p-1.5 sm:p-2 rounded-lg">
+              <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
             </div>
-            <h1 className="text-xl font-semibold">Notifications</h1>
+            <h1 className="text-base sm:text-xl font-semibold">Notifications</h1>
           </div>
         </div>
         <div className="space-y-4 mt-6">
@@ -71,20 +71,20 @@ export default function NotificationsPage() {
   return (
     <div className="max-w-4xl mx-auto space-y-6">
       <div className="flex items-center justify-between mt-2">
-        <div className="flex items-center gap-3">
-          <div className="bg-muted p-2 rounded-lg">
-            <Bell className="w-5 h-5 text-foreground" />
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="bg-muted p-1.5 sm:p-2 rounded-lg">
+            <Bell className="w-4 h-4 sm:w-5 sm:h-5 text-foreground" />
           </div>
-          <h1 className="text-xl font-semibold">Notifications</h1>
+          <h1 className="text-base sm:text-xl font-semibold">Notifications</h1>
         </div>
         
         {notifications.length > 0 && (
           <Button 
             variant="outline" 
             onClick={() => markAllAsRead()}
-            className="flex items-center gap-2 cursor-pointer"
+            className="flex items-center gap-1.5 sm:gap-2 cursor-pointer h-8 sm:h-10 px-2 sm:px-4 text-[11px] sm:text-sm"
           >
-            <CheckCircle2 className="w-4 h-4" />
+            <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4" />
             Mark all as read
           </Button>
         )}
@@ -92,17 +92,17 @@ export default function NotificationsPage() {
 
       <div className="space-y-4 mt-6">
         {notifications.length === 0 ? (
-          <div className="text-center py-20 bg-muted/20 rounded-xl border border-dashed">
-            <Bell className="w-10 h-10 text-muted-foreground mx-auto mb-4 opacity-50" />
-            <h3 className="text-base font-medium">No notifications yet</h3>
-            <p className="text-sm text-muted-foreground mt-1">When you get reminders or activities, they will show up here.</p>
+          <div className="text-center py-16 sm:py-20 bg-muted/20 rounded-xl border border-dashed">
+            <Bell className="w-8 h-8 sm:w-10 sm:h-10 text-muted-foreground mx-auto mb-4 opacity-50" />
+            <h3 className="text-sm sm:text-base font-medium">No notifications yet</h3>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-1">When you get reminders or activities, they will show up here.</p>
           </div>
         ) : (
           notifications.map((notification) => (
             <div 
               key={notification._id}
               onClick={() => handleNotificationClick(notification)}
-              className={`flex items-start gap-4 p-4 rounded-xl border transition-all cursor-pointer hover:bg-muted/50 ${
+              className={`flex items-start gap-3 sm:gap-4 p-3 sm:p-4 rounded-xl border transition-all cursor-pointer hover:bg-muted/50 ${
                 notification.isRead ? 'bg-background opacity-80' : 'bg-muted/20 border-purple-500/30'
               }`}
             >
@@ -112,14 +112,14 @@ export default function NotificationsPage() {
               
               <div className="flex-1">
                 <div className="flex items-center justify-between">
-                  <h3 className={`text-sm font-medium ${notification.isRead ? 'text-foreground/80' : 'text-foreground'}`}>
+                  <h3 className={`text-xs sm:text-sm font-medium ${notification.isRead ? 'text-foreground/80' : 'text-foreground'}`}>
                     {notification.title}
                   </h3>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-[10px] sm:text-xs text-muted-foreground">
                     {formatTime(notification.createdAt)}
                   </span>
                 </div>
-                <p className="text-sm text-muted-foreground mt-1">
+                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5 sm:mt-1">
                   {notification.message}
                 </p>
               </div>

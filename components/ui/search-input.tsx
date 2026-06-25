@@ -39,7 +39,7 @@ function SearchInputContent() {
   };
 
   return (
-    <div className="relative w-full max-w-sm focus-within:max-w-md transition-all duration-300 ease-in-out z-50">
+    <div className="relative w-full max-w-sm focus-within:max-w-md transition-all duration-300 ease-in-out">
       <div className="relative flex items-center bg-muted/20 hover:bg-muted/30 focus-within:bg-background/80 border border-border/80 rounded-xl transition-all duration-300 shadow-sm">
         <Search className={`absolute left-3 size-4 transition-colors duration-300 ${term ? "text-purple-400" : "text-muted-foreground"}`} />
         <Input

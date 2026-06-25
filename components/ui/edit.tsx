@@ -470,10 +470,10 @@ function Toolbar({ editor }: { editor: Editor }) {
 
 function NoteEditor({ editor }: { editor: Editor }) {
   return (
-    <div className="overflow-hidden border border-border/50 rounded-xl bg-background/50 shadow-sm">
+    <div className="flex flex-col flex-1 min-h-0 overflow-hidden border border-border/50 rounded-xl bg-background/50 shadow-sm">
       <Toolbar editor={editor} />
       <div
-        className="cursor-text p-2 max-h-48 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="cursor-text p-2 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         onClick={() => editor.commands.focus()}
       >
         <EditorContent editor={editor} />
@@ -565,22 +565,22 @@ export default function EditNote({
           </button>
         }
       />
-      <DialogContent className="sm:max-w-xl p-4">
+      <DialogContent className="sm:max-w-xl p-4 w-screen h-[100dvh] max-w-none sm:h-auto sm:w-full sm:rounded-xl rounded-none border-0 flex flex-col !top-[50%] sm:!top-[50%]">
         <DialogHeader className="sr-only">
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-3">
-          <div className="flex items-center gap-3 mt-2">
+        <div className="flex flex-col flex-1 min-h-0 space-y-3">
+          <div className="flex items-center gap-3 mt-2 shrink-0">
             <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-7 h-7">
               <Notebook className="w-3.5 h-3.5" />
             </div>
             <h1 className="text-lg font-semibold">Edit Note</h1>
           </div>
 
-          <form>
+          <form className="shrink-0">
             <input
               className="w-full border-b outline-0 p-2 text-sm font-medium"
               type="text"
@@ -591,7 +591,7 @@ export default function EditNote({
           </form>
 
           {/* Reminder Toggle */}
-          <div className="flex items-center justify-between py-2">
+          <div className="flex items-center justify-between py-2 shrink-0">
             <div className="flex items-center gap-2">
               <Bell className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">Reminder</span>
@@ -612,7 +612,7 @@ export default function EditNote({
           </div>
 
           {reminderEnabled && (
-            <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center shrink-0">
               <input
                 type="date"
                 value={reminderDate}
@@ -630,9 +630,9 @@ export default function EditNote({
 
           <NoteEditor editor={editor} />
 
-          <div className="border" />
+          <div className="border shrink-0" />
 
-          <div className="flex items-center justify-end gap-3 mt-2">
+          <div className="flex items-center justify-end gap-3 mt-2 shrink-0 pb-4 sm:pb-0">
             <Button
               variant="secondary"
               size="sm"
@@ -643,7 +643,7 @@ export default function EditNote({
             </Button>
             <Button
               size="sm"
-              className="cursor-pointer"
+              className="cursor-pointer bg-purple-600 hover:bg-purple-700 text-white"
               onClick={async () => {
                 await handleEdit();
                 window.dispatchEvent(new Event("note-saved"));

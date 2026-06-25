@@ -518,7 +518,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 
 function NoteEditor({ editor }: { editor: Editor }) {
   return (
-    <div className="flex flex-col flex-1 overflow-hidden border border-border/50 rounded-2xl bg-background/50 shadow-sm">
+    <div className="flex flex-col flex-1 w-full overflow-hidden border border-border/50 rounded-2xl bg-background/50 shadow-sm">
       <Toolbar editor={editor} />
       <div
         className="cursor-text flex-1 min-h-0 overflow-y-auto p-2"
@@ -895,14 +895,14 @@ function NewNotesContent() {
   return (
     <div className="space-y-4 flex min-h-[calc(100vh-57px)] flex-col overflow-y-auto">
       <div className="flex items-center gap-3 mt-6">
-        <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-9 h-9">
-          <Notebook className="w-4 h-4" />
+        <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-8 h-8 sm:w-9 sm:h-9">
+          <Notebook className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
         </div>
-        <h1 className="text-base sm:text-lg font-semibold">New Note</h1>
+        <h1 className="text-sm sm:text-lg font-semibold">New Note</h1>
       </div>
       <form>
         <input
-          className="w-full border-b outline-0 p-2 text-sm font-medium placeholder:text-muted-foreground"
+          className="w-full border-b outline-0 p-2 text-xs sm:text-sm font-medium placeholder:text-muted-foreground"
           type="text"
           placeholder="Add a title..."
           value={title}
@@ -915,17 +915,17 @@ function NewNotesContent() {
       </div>
 
       <div className="introduction overflow-y-auto pr-1">
-        <h2 className="text-base sm:text-lg font-semibold w-50 leading-8">
+        <h2 className="text-sm sm:text-lg font-semibold w-50 leading-8">
           Welcome to your new note!
         </h2>
-        <p className="mt-3 text-muted-foreground text-xs sm:text-sm">
+        <p className="mt-3 text-muted-foreground text-[11px] sm:text-sm">
           This is your space. Write anything you want.
         </p>
-        <p className="mt-3 text-muted-foreground mb-3 text-xs sm:text-sm">
+        <p className="mt-3 text-muted-foreground mb-3 text-[11px] sm:text-sm">
           You can format text like in Microsoft Word.
         </p>
 
-        <ul className="list-disc pl-5 space-y-2 text-xs sm:text-sm text-muted-foreground">
+        <ul className="list-disc pl-5 space-y-2 text-[11px] sm:text-sm text-muted-foreground">
           <li>
             <span className="font-bold text-foreground">Bold</span>,{" "}
             <span className="italic">italic</span>, and{" "}
@@ -975,7 +975,7 @@ function NewNotesContent() {
         ))}
       </div>
 
-      <div className="flex flex-col sm:flex-row text-xs sm:text-sm text-muted-foreground justify-between items-start sm:items-center gap-4 mt-2 sm:mt-6 pb-6">
+      <div className="flex flex-col sm:flex-row text-[11px] sm:text-sm text-muted-foreground justify-between items-start sm:items-center gap-4 mt-2 sm:mt-6 pb-6">
         <div className="flex flex-wrap items-center gap-4 text-muted-foreground">
           <p>
             Words:{" "}
@@ -989,7 +989,7 @@ function NewNotesContent() {
         <div className="flex flex-wrap gap-3 items-center w-full sm:w-auto">
           <Button
             type="button"
-            className="cursor-pointer flex-1 sm:flex-none h-9 sm:h-10 text-xs sm:text-sm"
+            className="cursor-pointer flex-1 sm:flex-none h-8 sm:h-10 text-[11px] sm:text-sm"
             variant="outline"
             onClick={() => router.push("/main")}
           >
@@ -997,7 +997,7 @@ function NewNotesContent() {
           </Button>
           <Button
             type="button"
-            className="cursor-pointer flex-1 sm:flex-none bg-purple-600 hover:bg-purple-700 text-white h-9 sm:h-10 text-xs sm:text-sm"
+            className="cursor-pointer flex-1 sm:flex-none bg-purple-600 hover:bg-purple-700 text-white h-8 sm:h-10 text-[11px] sm:text-sm"
             onClick={handleSave}
           >
             Save Note

@@ -484,21 +484,28 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               <Menu className="w-5 h-5" />
             </button>
 
-            {isNewNotesPage || isUtilityPage ? (
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.push("/main")}
-                className="cursor-pointer border-0 flex items-center"
-              >
-                <ArrowLeft />
-                Back to Notes
-              </Button>
-            ) : (
-              <div className="flex-1 min-w-0 w-full max-w-md">
-                <SearchInput />
-              </div>
-            )}
+            <div className="flex-1 min-w-0 flex items-center justify-start">
+              {isNewNotesPage || isUtilityPage ? (
+                <>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={() => router.push("/main")}
+                    className="hidden md:flex cursor-pointer border-0 items-center"
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Notes
+                  </Button>
+                  <div className="md:hidden">
+                    <AppLogo />
+                  </div>
+                </>
+              ) : (
+                <div className="w-full max-w-md">
+                  <SearchInput />
+                </div>
+              )}
+            </div>
 
             <div className="flex items-center justify-end gap-2 sm:gap-4 ml-auto shrink-0">
               {showSaved && (
@@ -541,7 +548,19 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
           {/* Mobile Second Row */}
           <div className="md:hidden flex items-center justify-between">
-            <AppLogo />
+            {isNewNotesPage || isUtilityPage ? (
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => router.push("/main")}
+                className="cursor-pointer px-3 h-8 text-xs font-medium border-border/50 hover:bg-muted"
+              >
+                <ArrowLeft className="w-4 h-4 mr-1.5" />
+                Back to Notes
+              </Button>
+            ) : (
+              <AppLogo />
+            )}
             <ModeToggle />
           </div>
         </header>

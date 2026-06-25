@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Tag, Star, LayoutGrid, List } from "lucide-react";
@@ -82,11 +82,15 @@ export default function TagsPage() {
 
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState("latest");
-  const [viewMode, setViewMode] = useState<"grid" | "list">(() => {
-    if (typeof window === "undefined") return "grid";
+  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+
+  useEffect(() => {
     const saved = localStorage.getItem("note-view-mode");
-    return saved === "grid" || saved === "list" ? saved : "grid";
-  });
+    if (saved === "grid" || saved === "list") {
+      setViewMode(saved);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleViewModeChange = (mode: "grid" | "list") => {
     setViewMode(mode);
@@ -142,20 +146,17 @@ export default function TagsPage() {
   return (
     <div className="p-2">
       <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-6">
-        <div className="text-blue-500 flex items-center justify-center rounded-3xl bg-blue-500/10 w-9 h-9">
+        <div className="text-blue-500 flex items-center justify-center rounded-lg bg-blue-500/10 w-8 h-8">
           <Tag className="w-4 h-4" />
         </div>
-        <div>
-          <h1 className="text-xl font-semibold">Tags</h1>
-          <p className="text-xs text-muted-foreground">Browse by category and filter your notes quickly.</p>
-        </div>
+        <h1 className="text-xl font-semibold">Tags</h1>
       </div>
 
       {/* Tag Filters */}
       <div className="flex flex-wrap gap-2 mb-6">
         <button
           onClick={() => setSelectedTag(null)}
-          className={`px-3 py-2 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
+          className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
             selectedTag === null
               ? "bg-foreground text-background"
               : "bg-muted hover:bg-muted/80 text-muted-foreground"
@@ -170,7 +171,7 @@ export default function TagsPage() {
             <button
               key={tag}
               onClick={() => setSelectedTag(tag)}
-              className={`px-3 py-2 rounded-full text-[11px] sm:text-xs font-medium transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium transition-colors cursor-pointer ${
                 isActive
                   ? `${theme.pillBg} ${theme.pillText} ring-1 ring-current`
                   : `bg-muted hover:bg-muted/80 text-muted-foreground`
@@ -289,10 +290,10 @@ export default function TagsPage() {
             return (
               <div
                 key={note._id}
-                className={`flex flex-col bg-card/90 border border-border/30 rounded-[1.75rem] p-4 shadow-sm hover:shadow-md transition-all duration-300 ${
+                className={`flex bg-card/40 border border-border/50 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 ${
                   viewMode === "grid"
-                    ? "gap-3"
-                    : "md:flex-row gap-3 items-start md:items-center"
+                    ? "flex-col min-h-40 h-auto gap-3"
+                    : "flex-col md:flex-row gap-3 items-start md:items-center"
                 }`}
               >
                 {viewMode === "list" && note.coverImage && (

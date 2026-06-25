@@ -32,7 +32,7 @@ interface SortNotesProps {
 export default function SortNotes({ sortBy, setSortBy }: SortNotesProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="mr-3 inline-flex items-center gap-2 rounded-full border border-border/50 bg-muted/20 px-3 py-2 text-sm text-muted-foreground cursor-pointer transition-colors hover:bg-muted/30">
+      <DropdownMenuTrigger className="mr-10 text-muted-foreground text-sm flex items-center gap-3 cursor-pointer">
         {sortBy === "latest" && "Latest First"}
         {sortBy === "oldest" && "Oldest First"}
         {sortBy === "a-z" && "A-Z"}

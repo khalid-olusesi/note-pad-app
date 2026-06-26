@@ -470,10 +470,17 @@ function Toolbar({ editor }: { editor: Editor }) {
 
 function NoteEditor({ editor }: { editor: Editor }) {
   return (
-    <div className="flex flex-col flex-1 min-h-0 overflow-hidden border border-border/50 rounded-xl bg-background/50 shadow-sm">
+    <div className="flex flex-col h-full overflow-hidden rounded-xl border border-border/50 bg-background/50">
       <Toolbar editor={editor} />
       <div
-        className="cursor-text p-2 flex-1 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="
+    flex-1
+    overflow-y-auto
+    p-4
+    cursor-text
+    [scrollbar-width:none]
+    [&::-webkit-scrollbar]:hidden
+  "
         onClick={() => editor.commands.focus()}
       >
         <EditorContent editor={editor} />
@@ -565,14 +572,31 @@ export default function EditNote({
           </button>
         }
       />
-      <DialogContent className="sm:max-w-xl w-screen h-[100dvh] max-w-none sm:h-auto sm:w-full sm:rounded-xl rounded-none border-0 flex flex-col !top-[50%] sm:!top-[50%] p-0 bg-[#070708]">
+      <DialogContent
+        className="
+          p-0
+    border-0
+    rounded-none
+    w-screen
+   h-dvh
+    max-w-none
+    max-h-none
+    flex
+    flex-col
+    overflow-hidden
+    sm:p-4
+    sm:h-auto
+    sm:max-w-3xl
+    sm:rounded-xl
+  "
+      >
         <DialogHeader className="sr-only">
           <DialogTitle>Edit profile</DialogTitle>
           <DialogDescription>
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col flex-1 min-h-0 space-y-3">
+        <div className="flex flex-col h-full min-h-0">
           <div className="flex items-center gap-3 mt-2 shrink-0">
             <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-7 h-7">
               <Notebook className="w-3.5 h-3.5" />
@@ -580,7 +604,7 @@ export default function EditNote({
             <h1 className="text-lg font-semibold">Edit Note</h1>
           </div>
 
-          <form className="shrink-0 px-4 pt-3">
+          <form className="shrink-0">
             <input
               className="w-full border-b outline-0 p-2 text-sm font-medium"
               type="text"
@@ -628,15 +652,25 @@ export default function EditNote({
             </div>
           )}
 
-          <div className="flex-1 min-h-0 overflow-y-auto">
-            <div className="p-4">
-              <NoteEditor editor={editor} />
-            </div>
+          <div className="flex-1 min-h-0 px-4">
+            <NoteEditor editor={editor} />
           </div>
 
           <div className="border shrink-0" />
 
-          <div className="flex items-center justify-end gap-3 mt-2 shrink-0 pb-4 sm:pb-0 sticky bottom-0 bg-[#070708] px-4 pt-3">
+          <div
+            className="
+    sticky
+    bottom-0
+    bg-background
+    border-t
+    px-4
+    py-3
+    flex
+    justify-end
+    gap-3
+"
+          >
             <Button
               variant="secondary"
               size="sm"

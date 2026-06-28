@@ -274,7 +274,7 @@ function MainPageContent() {
 
   return (
     <>
-      <div className="rounded-3xl border border-border/50 bg-card/80 p-4 mb-4">
+      <div className="mb-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
           <div className="space-y-1">
             <div className="flex items-center gap-3">
@@ -291,7 +291,7 @@ function MainPageContent() {
               </div>
             </div>
           </div>
-          <div className="flex flex-wrap gap-2 items-center justify-start sm:justify-end">
+          <div className="flex flex-wrap items-center justify-between sm:justify-end gap-4">
             <SortNotes sortBy={sortBy} setSortBy={setSortBy} />
             <div className="border border-border bg-muted/20 rounded-2xl flex p-1 gap-1 items-center w-fit">
             <button
@@ -316,7 +316,7 @@ function MainPageContent() {
       <div
         className={
           viewMode === "grid"
-            ? "grid grid-cols-1 lg:grid-cols-2 gap-4 p-2"
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2"
             : "flex flex-col gap-3 p-2"
         }
       >

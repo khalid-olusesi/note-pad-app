@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter, usePathname } from "next/navigation";
-import { MessageCircle, Trash2, MoreHorizontal, X } from "lucide-react";
+import { MessageCircle, Trash2, MoreHorizontal, X, ArrowLeft, PanelLeftOpen } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -63,6 +63,13 @@ function Sidebar() {
             aria-label="Close chats"
           >
             <X className="w-4 h-4" />
+          </button>
+          <button
+            onClick={toggle}
+            className="hidden md:flex p-2 rounded-lg text-muted-foreground hover:bg-muted/60 transition-colors shrink-0 ml-2 cursor-pointer"
+            aria-label="Close sidebar"
+          >
+            <ArrowLeft className="w-4 h-4" />
           </button>
         </div>
         <div className="p-4 border-b border-border/50">
@@ -143,9 +150,22 @@ function Sidebar() {
 }
 
 function LayoutInner({ children }: { children: React.ReactNode }) {
+  const { isOpen, toggle } = useSidebar();
+
   return (
-    <div className="flex h-[calc(100vh-57px)]">
+    <div className="flex h-[calc(100vh-57px)] relative">
       <Sidebar />
+      {!isOpen && (
+        <div className="absolute top-4 left-4 z-10 hidden md:block">
+          <button
+            onClick={toggle}
+            className="p-2 bg-background border border-border/50 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors shadow-sm cursor-pointer"
+            aria-label="Open sidebar"
+          >
+            <PanelLeftOpen className="w-5 h-5" />
+          </button>
+        </div>
+      )}
       <div className="flex-1 min-w-0 overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {children}
       </div>

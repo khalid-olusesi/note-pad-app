@@ -574,21 +574,20 @@ export default function EditNote({
       />
       <DialogContent
         className="
-          p-0
-    border-0
-    rounded-none
+    p-0
     w-screen
-   h-dvh
+    h-dvh
     max-w-none
-    max-h-none
+    rounded-none
+    border-0
     flex
     flex-col
     overflow-hidden
-    sm:p-4
+
+    sm:max-w-xl
     sm:h-auto
-    sm:max-w-3xl
     sm:rounded-xl
-  "
+"
       >
         <DialogHeader className="sr-only">
           <DialogTitle>Edit profile</DialogTitle>
@@ -596,7 +595,7 @@ export default function EditNote({
             Make changes to your profile here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col h-full min-h-0">
+        <div className="flex flex-col flex-1 min-h-0">
           <div className="flex items-center gap-3 mt-2 shrink-0">
             <div className="text-purple-500 flex items-center justify-center rounded-lg bg-purple-950 w-7 h-7">
               <Notebook className="w-3.5 h-3.5" />
@@ -606,7 +605,7 @@ export default function EditNote({
 
           <form className="shrink-0">
             <input
-              className="w-full border-b outline-0 p-2 text-sm font-medium"
+              className="w-full border-b outline-0 p-2 px-4 pb-3 text-sm font-medium"
               type="text"
               placeholder="Add a title..."
               value={title}
@@ -615,7 +614,7 @@ export default function EditNote({
           </form>
 
           {/* Reminder Toggle */}
-          <div className="flex items-center justify-between py-2 shrink-0">
+          <div className="flex items-center justify-between px-4 py-2 shrink-0">
             <div className="flex items-center gap-2">
               <Bell className="w-4 h-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">Reminder</span>
@@ -652,7 +651,7 @@ export default function EditNote({
             </div>
           )}
 
-          <div className="flex-1 min-h-0 px-4">
+          <div className="flex flex-col h-full overflow-hidden rounded-xl border">
             <NoteEditor editor={editor} />
           </div>
 

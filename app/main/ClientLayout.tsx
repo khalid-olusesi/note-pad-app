@@ -340,7 +340,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
   const isNewNotesPage = pathname === "/main/newNotes";
   const isUtilityPage =
-    pathname === "/main/ai-chat" || pathname === "/main/settings";
+    pathname === "/main/ai-chat" || pathname === "/main/settings" || pathname === "/main/notifications";
   const { data: session, isPending } = authClient.useSession();
   const [showSaved, setShowSaved] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);

@@ -26,6 +26,10 @@ export const metadata: Metadata = {
     description:
       "A private, fast notepad with AI-powered search, tags, reminders, and more.",
   },
+  icons: {
+    icon: "/icon.svg?v=2",
+    apple: "/icon.svg?v=2",
+  },
 };
 
 export default function RootLayout({

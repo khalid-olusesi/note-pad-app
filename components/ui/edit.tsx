@@ -470,7 +470,7 @@ function Toolbar({ editor }: { editor: Editor }) {
 
 function NoteEditor({ editor }: { editor: Editor }) {
   return (
-    <div className="flex flex-col h-full overflow-hidden rounded-xl border border-border/50 bg-background/50">
+    <div className="flex flex-col flex-1 min-h-0 overflow-hidden rounded-xl border border-border/50 bg-background/50">
       <Toolbar editor={editor} />
       <div
         className="
@@ -651,7 +651,7 @@ export default function EditNote({
             </div>
           )}
 
-          <div className="flex flex-col h-full overflow-hidden rounded-xl border">
+          <div className="flex flex-col flex-1 min-h-0 overflow-hidden rounded-xl border sm:max-h-[50vh]">
             <NoteEditor editor={editor} />
           </div>
 

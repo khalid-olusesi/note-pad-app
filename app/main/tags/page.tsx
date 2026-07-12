@@ -326,12 +326,12 @@ export default function TagsPage() {
               <div
                 key={note._id}
                 onClick={() => handleCardClick(note._id)}
-                className={`flex bg-card/40 border border-border/50 rounded-xl p-4 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer ${
-                  viewMode === "grid" ? "flex-col min-h-40 h-auto" : "flex-col md:flex-row gap-4 items-start md:items-center"
+                className={`flex bg-card/40 border border-border/50 rounded-xl p-3 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer ${
+                  viewMode === "grid" ? "flex-col min-h-32 h-auto" : "flex-col md:flex-row gap-4 items-start md:items-center"
                 }`}
               >
                 {viewMode === "list" && note.coverImage && (
-                  <div className="w-full sm:w-24 h-32 sm:h-20 rounded-lg overflow-hidden border border-border/30 shrink-0 mb-2 sm:mb-0">
+                  <div className="w-full sm:w-20 h-28 sm:h-16 rounded-lg overflow-hidden border border-border/30 shrink-0 mb-2 sm:mb-0">
                     <img
                       src={note.coverImage}
                       alt="Cover"
@@ -341,10 +341,10 @@ export default function TagsPage() {
                 )}
                 <div className="flex-1 min-w-0 flex flex-col justify-between h-full">
                   <div>
-                    <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between mb-2">
-                      <div className="flex flex-col gap-1 min-w-0">
+                    <div className="flex flex-col gap-1.5 sm:flex-row sm:items-start sm:justify-between mb-1.5">
+                      <div className="flex flex-col gap-0.5 min-w-0">
                         <h2
-                          className={`text-base sm:text-lg font-semibold tracking-wide ${theme.title} line-clamp-1 pr-2`}
+                          className={`text-sm sm:text-base font-semibold tracking-wide ${theme.title} line-clamp-1 pr-2`}
                         >
                           {note.title || "Untitled Note"}
                         </h2>
@@ -393,7 +393,7 @@ export default function TagsPage() {
                           e.stopPropagation();
                         }
                       }}
-                      className={`text-sm text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-12 overflow-hidden" : "max-h-20 overflow-hidden"}`}
+                      className={`text-xs text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-12" : "max-h-16"} overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden`}
                       dangerouslySetInnerHTML={{ __html: note.body }}
                     />
                   </div>

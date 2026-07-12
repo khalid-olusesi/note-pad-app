@@ -148,7 +148,7 @@ export default function NoteCardMenu({
 
       {/* Change Tag Dialog */}
       <Dialog open={tagDialogOpen} onOpenChange={setTagDialogOpen}>
-        <DialogContent className="w-[90vw] sm:max-w-sm rounded-2xl">
+        <DialogContent className="inset-auto top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90vw] max-w-sm h-auto max-h-[calc(100%-2rem)] rounded-2xl">
           <DialogHeader>
             <DialogTitle>Change Tag</DialogTitle>
             <DialogDescription>

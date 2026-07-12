@@ -24,9 +24,8 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Edit, Star, Trash2, Copy, Tags, MoreHorizontal } from "lucide-react";
+import { Star, Trash2, Copy, Tags, MoreHorizontal } from "lucide-react";
 import { useState, useRef } from "react";
-import EditNote from "@/components/ui/edit";
 
 type Note = {
   _id: string;
@@ -149,7 +148,7 @@ export default function NoteCardMenu({
 
       {/* Change Tag Dialog */}
       <Dialog open={tagDialogOpen} onOpenChange={setTagDialogOpen}>
-        <DialogContent className="sm:max-w-sm">
+        <DialogContent className="w-[90vw] sm:max-w-sm rounded-2xl">
           <DialogHeader>
             <DialogTitle>Change Tag</DialogTitle>
             <DialogDescription>

@@ -391,7 +391,7 @@ function MainPageContent() {
                 } ${viewMode === "grid" ? "flex-col min-h-40 h-auto" : "flex-col md:flex-row gap-4 items-start md:items-center"}`}
               >
                 {viewMode === "list" && note.coverImage && (
-                  <div className="w-full sm:w-24 h-20 rounded-lg overflow-hidden border border-border/30 shrink-0 hidden sm:block">
+                  <div className="w-full sm:w-24 h-32 sm:h-20 rounded-lg overflow-hidden border border-border/30 shrink-0 mb-2 sm:mb-0">
                     <img
                       src={note.coverImage}
                       alt="Cover"
@@ -453,7 +453,7 @@ function MainPageContent() {
                           e.stopPropagation();
                         }
                       }}
-                      className={`text-sm text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-20 overflow-y-auto scrollbar-none" : "max-h-28 overflow-y-auto scrollbar-none"}`}
+                      className={`text-sm text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-12 overflow-hidden" : "max-h-20 overflow-hidden"}`}
                       dangerouslySetInnerHTML={{ __html: note.body }}
                     />
                   </div>

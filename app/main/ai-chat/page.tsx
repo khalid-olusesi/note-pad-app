@@ -10,7 +10,7 @@ import {
   ArrowRight,
   Loader2,
   ArrowUp,
-  PanelLeftOpen,
+  ChevronRight,
 } from "lucide-react";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -82,7 +82,7 @@ export default function AIChatPage() {
           className="p-2 bg-background border border-border/50 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors shadow-sm cursor-pointer"
           aria-label="Open sidebar"
         >
-          <PanelLeftOpen className="w-5 h-5" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
 

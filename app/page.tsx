@@ -108,20 +108,22 @@ export default function HomePage() {
                   </Button>
                 </Link>
               ) : (
-                <Link href="/auth/signup">
-                  <Button className="bg-violet-600 hover:bg-violet-700 text-white h-11 px-7 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-violet-600/20 flex items-center gap-2 cursor-pointer">
-                    Start for free <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </Link>
+                <>
+                  <Link href="/auth/signup">
+                    <Button className="bg-violet-600 hover:bg-violet-700 text-white h-11 px-7 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-violet-600/20 flex items-center gap-2 cursor-pointer">
+                      Start for free <ArrowRight className="w-4 h-4" />
+                    </Button>
+                  </Link>
+                  <Link href="/auth/login">
+                    <Button
+                      variant="outline"
+                      className="h-11 px-7 rounded-xl text-sm border-white/10 bg-white/3 hover:bg-white/[0.07] text-zinc-300 hover:text-white transition-all cursor-pointer"
+                    >
+                      Log in
+                    </Button>
+                  </Link>
+                </>
               )}
-              <Link href="/auth/login">
-                <Button
-                  variant="outline"
-                  className="h-11 px-7 rounded-xl text-sm border-white/10 bg-white/3 hover:bg-white/[0.07] text-zinc-300 hover:text-white transition-all cursor-pointer"
-                >
-                  Log in
-                </Button>
-              </Link>
             </div>
 
             <p className="text-xs text-zinc-600 mt-5">
@@ -296,19 +298,29 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-wrap gap-3 justify-center relative z-10">
-              <Link href="/auth/signup">
-                <Button className="bg-white text-[#0c0c10] hover:bg-zinc-100 h-11 px-8 rounded-xl text-sm font-bold cursor-pointer transition-all">
-                  Create free account
-                </Button>
-              </Link>
-              <Link href="/auth/login">
-                <Button
-                  variant="outline"
-                  className="h-11 px-8 rounded-xl text-sm border-white/10 bg-white/3 hover:bg-white/[0.07] text-zinc-300 hover:text-white transition-all cursor-pointer"
-                >
-                  Log in
-                </Button>
-              </Link>
+              {session ? (
+                <Link href="/main">
+                  <Button className="bg-white text-[#0c0c10] hover:bg-zinc-100 h-11 px-8 rounded-xl text-sm font-bold cursor-pointer transition-all">
+                    Open Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <>
+                  <Link href="/auth/signup">
+                    <Button className="bg-white text-[#0c0c10] hover:bg-zinc-100 h-11 px-8 rounded-xl text-sm font-bold cursor-pointer transition-all">
+                      Create free account
+                    </Button>
+                  </Link>
+                  <Link href="/auth/login">
+                    <Button
+                      variant="outline"
+                      className="h-11 px-8 rounded-xl text-sm border-white/10 bg-white/3 hover:bg-white/[0.07] text-zinc-300 hover:text-white transition-all cursor-pointer"
+                    >
+                      Log in
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </section>

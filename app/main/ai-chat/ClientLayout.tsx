@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter, usePathname } from "next/navigation";
-import { MessageCircle, Trash2, MoreHorizontal, X, ArrowLeft, PanelLeftOpen } from "lucide-react";
+import { MessageCircle, Trash2, MoreHorizontal, X, ArrowLeft, ChevronRight } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -120,7 +120,7 @@ function Sidebar() {
 
                     <DropdownMenu>
                       <DropdownMenuTrigger
-                        className="p-1.5 rounded-lg opacity-0 group-hover:opacity-100 hover:bg-muted/80 transition-all shrink-0"
+                        className="p-1.5 rounded-lg opacity-100 md:opacity-0 md:group-hover:opacity-100 hover:bg-muted/80 transition-all shrink-0"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <MoreHorizontal className="w-4 h-4 text-muted-foreground" />
@@ -162,7 +162,7 @@ function LayoutInner({ children }: { children: React.ReactNode }) {
             className="p-2 bg-background border border-border/50 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors shadow-sm cursor-pointer"
             aria-label="Open sidebar"
           >
-            <PanelLeftOpen className="w-5 h-5" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
       )}

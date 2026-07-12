@@ -4,6 +4,7 @@ import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/ui/theme-provider";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -55,6 +56,8 @@ export default function RootLayout({
           </ThemeProvider>
         </ConvexClientProvider>
         <Toaster />
+
+        <Analytics />
       </body>
     </html>
   );

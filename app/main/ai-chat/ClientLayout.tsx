@@ -30,7 +30,7 @@ function formatDate(timestamp: number): string {
 function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
-  const { isOpen, toggle } = useSidebar();
+  const { isOpen, toggle, close } = useSidebar();
   const chats = useQuery(api.notes.getChats);
   const delChat = useMutation(api.notes.delAichat);
 
@@ -99,7 +99,10 @@ function Sidebar() {
                 return (
                   <div
                     key={chat._id}
-                    onClick={() => router.push(`/main/ai-chat/${chat._id}`)}
+                    onClick={() => {
+                      if (window.innerWidth < 768) close();
+                      router.push(`/main/ai-chat/${chat._id}`);
+                    }}
                     className={`w-full text-left group flex items-center justify-between p-3 rounded-lg cursor-pointer transition-all border ${
                       isActive
                         ? "bg-muted/60 border-border/50"

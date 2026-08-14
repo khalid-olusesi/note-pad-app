@@ -159,13 +159,13 @@ export default function Favorite() {
               </div>
               <div>
                 <h1 className="text-lg sm:text-xl font-semibold">Favorite Notes</h1>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+                <span className="block text-xs sm:text-sm text-muted-foreground mt-0.5">
                   {notes ? (
                     `${notes.length} note${notes.length === 1 ? "" : "s"} in favorites`
                   ) : (
                     <Skeleton className="w-24 h-4" />
                   )}
-                </p>
+                </span>
               </div>
             </div>
           </div>

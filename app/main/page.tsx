@@ -281,13 +281,13 @@ function MainPageContent() {
               <Notebook className="w-5 h-5 text-purple-400" />
               <div>
                 <h1 className="text-lg sm:text-xl font-semibold">All Notes</h1>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+                <span className="block text-xs sm:text-sm text-muted-foreground mt-0.5">
                   {notes ? (
                     `${notes.length} note${notes.length === 1 ? "" : "s"} ${search ? "found" : "in total"}`
                   ) : (
                     <Skeleton className="w-24 h-4" />
                   )}
-                </p>
+                </span>
               </div>
             </div>
           </div>

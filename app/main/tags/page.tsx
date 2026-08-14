@@ -188,13 +188,13 @@ export default function TagsPage() {
               </div>
               <div>
                 <h1 className="text-lg sm:text-xl font-semibold">Tags</h1>
-                <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
+                <span className="block text-xs sm:text-sm text-muted-foreground mt-0.5">
                   {sortedNotes ? (
                     `${sortedNotes.length} note${sortedNotes.length === 1 ? "" : "s"}${selectedTag ? ` tagged "${selectedTag}"` : " in total"}`
                   ) : (
                     <Skeleton className="w-24 h-4" />
                   )}
-                </p>
+                </span>
               </div>
             </div>
           </div>

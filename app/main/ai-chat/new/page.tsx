@@ -69,7 +69,7 @@ export default function NewChatPage() {
     <div className="flex h-[calc(100vh-57px)] flex-col bg-linear-to-b from-background to-muted/30 px-4">
       {/* Back Button */}
       <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-border/50">
-        <div className="flex items-center gap-2 py-3">
+        <div className="md:hidden flex items-center gap-2 py-3">
           <div
             onClick={toggle}
             className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-pointer rounded-lg hover:bg-muted/50 px-2.5 py-1.5"

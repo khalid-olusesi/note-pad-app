@@ -344,7 +344,7 @@ export default function ChatViewPage({
       <div className="flex flex-wrap items-center gap-3 pb-4 border-b border-border/50">
         <button
           onClick={toggle}
-          className="p-2 bg-muted/20 hover:bg-muted rounded-2xl transition-colors text-muted-foreground"
+          className="md:hidden p-2 bg-muted/20 hover:bg-muted rounded-2xl transition-colors text-muted-foreground cursor-pointer"
           aria-label="Open chat list"
         >
           <ChevronLeft className="w-5 h-5" />

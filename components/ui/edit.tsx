@@ -35,8 +35,7 @@ import {
 import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -544,11 +543,16 @@ export default function EditNote({
     },
   });
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const hasInitializedRef = useRef(false);
+
   useEffect(() => {
-    if (open) {
+    if (open && !hasInitializedRef.current) {
       setTitle(note.title);
       editor?.commands.setContent(note.body);
+      hasInitializedRef.current = true;
+    }
+    if (!open) {
+      hasInitializedRef.current = false;
     }
   }, [open, note, editor]);
 

@@ -3,7 +3,7 @@
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter, usePathname } from "next/navigation";
-import { MessageCircle, Trash2, MoreHorizontal, X, ArrowLeft, ChevronRight } from "lucide-react";
+import { MessageCircle, Trash2, MoreHorizontal, X, ChevronLeft, ChevronRight } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -70,10 +70,10 @@ function Sidebar() {
           </button>
           <button
             onClick={toggle}
-            className="hidden md:flex p-2 rounded-lg text-muted-foreground hover:bg-muted/60 transition-colors shrink-0 ml-2 cursor-pointer"
+            className="hidden md:flex p-2 bg-background border border-border/50 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors shadow-sm shrink-0 ml-2 cursor-pointer"
             aria-label="Close sidebar"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
         </div>
         <div className="p-4 border-b border-border/50">

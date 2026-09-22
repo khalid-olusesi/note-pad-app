@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import {
   Moon,
   Sun,
-  Monitor,
   Bell,
   Lock,
   LogOut,
@@ -225,11 +224,10 @@ export default function SettingsPage() {
 
         <div className="space-y-3">
           <p className="text-xs sm:text-sm font-medium text-muted-foreground">Theme</p>
-          <div className="grid grid-cols-3 gap-2 sm:gap-4">
+          <div className="grid grid-cols-2 gap-2 sm:gap-4 max-w-xs">
             {[
               { value: "light", label: "Light", icon: Sun },
               { value: "dark", label: "Dark", icon: Moon },
-              { value: "system", label: "System", icon: Monitor },
             ].map(({ value, label, icon: Icon }) => (
               <button
                 key={value}

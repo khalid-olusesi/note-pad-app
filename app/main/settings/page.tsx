@@ -186,7 +186,7 @@ export default function SettingsPage() {
   if (!mounted) return null;
 
   return (
-    <div className="space-y-6 sm:space-y-8 p-4 sm:p-6 max-w-4xl mx-auto pb-24">
+    <div className="space-y-6 sm:space-y-8 p-4 sm:p-6 max-w-4xl mx-auto pb-6 sm:pb-12">
       {/* Header */}
       <div className="flex justify-between items-center">
         <div className="space-y-1 sm:space-y-1.5">

@@ -763,7 +763,7 @@ function NewNotesContent() {
       }
 
       window.dispatchEvent(new Event("note-saved"));
-      router.push("/main");
+      router.replace("/main");
     } catch (error) {
       console.error("Save failed:", error);
       setSaveStatus("idle");
@@ -991,7 +991,7 @@ function NewNotesContent() {
             type="button"
             className="cursor-pointer flex-1 sm:flex-none h-8 sm:h-10 text-[11px] sm:text-sm"
             variant="outline"
-            onClick={() => router.push("/main")}
+            onClick={() => router.replace("/main")}
           >
             Cancel
           </Button>

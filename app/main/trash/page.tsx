@@ -7,6 +7,7 @@ import { Trash2, RotateCcw, AlertTriangle } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useState } from "react";
 import Image from "next/image";
+import { toast } from "sonner";
 
 export default function TrashPage() {
   const notes = useQuery(api.notes.getTrashedNotes);
@@ -40,11 +41,21 @@ export default function TrashPage() {
   };
 
   const handleRestore = async (noteId: Id<"notes">) => {
-    await restoreNote({ noteId });
+    try {
+      await restoreNote({ noteId });
+      toast.success("Note restored successfully");
+    } catch (error) {
+      toast.error("Failed to restore note");
+    }
   };
 
   const handleDelete = async (noteId: Id<"notes">) => {
-    await deleteNote({ noteId });
+    try {
+      await deleteNote({ noteId });
+      toast.success("Note deleted permanently");
+    } catch (error) {
+      toast.error("Failed to delete note");
+    }
   };
 
   return (
@@ -61,13 +72,18 @@ export default function TrashPage() {
 
         {notes && notes.length > 0 && (
           <button
-            onClick={() => {
+            onClick={async () => {
               if (
                 confirm(
                   "Are you sure you want to permanently delete all notes in the trash? This action cannot be undone.",
                 )
               ) {
-                deleteAllTrashedNotes();
+                try {
+                  await deleteAllTrashedNotes();
+                  toast.success("Trash emptied successfully");
+                } catch (error) {
+                  toast.error("Failed to empty trash");
+                }
               }
             }}
             className="flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-500 transition-colors border border-red-500/20 font-medium text-sm whitespace-nowrap cursor-pointer"

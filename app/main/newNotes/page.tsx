@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from "next/navigation";
 import { useNoteContext } from "./ClientLayout";
+import { toast } from "sonner";
 
 import {
   Bold,
@@ -738,21 +739,23 @@ function NewNotesContent() {
 
     try {
       if (noteId) {
-        updateNotesMut({
+        await updateNotesMut({
           noteId: noteId as any,
           ...notePayload,
         });
+        toast.success("Note updated successfully");
         try {
           localStorage.removeItem(`note_${noteId}`);
         } catch (error) {}
       } else {
-        createNote(notePayload).then((savedNoteId) => {
+        await createNote(notePayload).then((savedNoteId) => {
           try {
             if (savedNoteId) {
               localStorage.removeItem(`note_${savedNoteId}`);
             }
           } catch (error) {}
         });
+        toast.success("Note created successfully");
       }
 
       try {
@@ -766,6 +769,7 @@ function NewNotesContent() {
       router.replace("/main");
     } catch (error) {
       console.error("Save failed:", error);
+      toast.error("Failed to save note");
       setSaveStatus("idle");
     }
   }

@@ -36,6 +36,7 @@ import { api } from "@/convex/_generated/api";
 import type { Id } from "@/convex/_generated/dataModel";
 import { useMutation } from "convex/react";
 import { useState, useEffect, useRef } from "react";
+import { toast } from "sonner";
 
 import { useEditor, EditorContent, Editor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -735,9 +736,14 @@ export default function EditNote({
               size="sm"
               className="cursor-pointer bg-purple-600 hover:bg-purple-700 text-white"
               onClick={async () => {
-                await handleEdit();
-                window.dispatchEvent(new Event("note-saved"));
-                setOpen(false);
+                try {
+                  await handleEdit();
+                  toast.success("Note updated successfully");
+                  window.dispatchEvent(new Event("note-saved"));
+                  setOpen(false);
+                } catch (error) {
+                  toast.error("Failed to update note");
+                }
               }}
             >
               Save

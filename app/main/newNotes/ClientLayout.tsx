@@ -4,6 +4,7 @@ import * as React from "react";
 import { useState } from "react";
 import { ReactNode } from "react";
 import { CalendarIcon, ImageIcon, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 import {
   Briefcase,
   User,
@@ -213,6 +214,7 @@ function NoteOptions() {
     setSelectedTag(categories[0].name);
     setIsReminderOn(false);
     setClearTrigger((prev) => prev + 1);
+    toast.info("Note draft discarded");
   }
 
   return (
@@ -304,7 +306,10 @@ function NoteOptions() {
                 className="w-full h-full object-cover"
               />
               <button
-                onClick={() => setCoverImage("")}
+                onClick={() => {
+                  setCoverImage("");
+                  toast.info("Cover image removed");
+                }}
                 className="absolute top-2 right-2 bg-black/60 hover:bg-red-600 text-white p-1.5 rounded-full transition-colors cursor-pointer"
               >
                 <Trash2 className="w-4 h-4" />
@@ -327,8 +332,10 @@ function NoteOptions() {
                   try {
                     const compressed = await compressImage(file);
                     setCoverImage(compressed);
+                    toast.success("Cover image added");
                   } catch (err) {
                     console.error("Image processing failed:", err);
+                    toast.error("Failed to process image");
                   }
                 }}
               />

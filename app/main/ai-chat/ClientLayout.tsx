@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SidebarProvider, useSidebar } from "./_context/sidebar-context";
+import { toast } from "sonner";
 
 function formatDate(timestamp: number): string {
   const date = new Date(timestamp);
@@ -132,8 +133,13 @@ function Sidebar() {
                         <DropdownMenuItem
                           className="text-red-500 cursor-pointer"
                           onClick={async () => {
-                            await delChat({ noteId: chat._id });
-                            if (isActive) router.push("/main/ai-chat");
+                            try {
+                              await delChat({ noteId: chat._id });
+                              toast.success("Chat deleted");
+                              if (isActive) router.push("/main/ai-chat");
+                            } catch (error) {
+                              toast.error("Failed to delete chat");
+                            }
                           }}
                         >
                           <Trash2 className="w-4 h-4 mr-2" />

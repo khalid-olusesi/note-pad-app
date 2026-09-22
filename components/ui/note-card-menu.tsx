@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/dialog";
 import { Star, Trash2, Copy, Tags, MoreHorizontal } from "lucide-react";
 import { useState, useRef } from "react";
+import { toast } from "sonner";
 
 type Note = {
   _id: string;

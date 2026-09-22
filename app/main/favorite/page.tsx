@@ -9,6 +9,7 @@ import EditNote from "@/components/ui/edit";
 import { Skeleton } from "@/components/ui/skeleton";
 import NoteCardMenu from "@/components/ui/note-card-menu";
 import { getRelativeTime, wasEdited } from "@/lib/time-utils";
+import { toast } from "sonner";
 
 const cardThemes = [
   {
@@ -113,21 +114,25 @@ export default function Favorite() {
   function handleFavorite(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     favorite({ noteId: noteId as any });
+    toast.success("Removed from favorites");
   }
 
   function handleTrash(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     trash({ noteId: noteId as any });
+    toast.success("Note moved to trash");
   }
 
   function handleDuplicate(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     duplicate({ noteId: noteId as any });
+    toast.success("Note duplicated");
   }
 
   function handleChangeTag(noteId: string, tag: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     changeTag({ noteId: noteId as any, tag });
+    toast.success(`Tag updated to "${tag}"`);
   }
 
   function handleCardClick(noteId: string) {

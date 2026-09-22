@@ -10,6 +10,7 @@ import SortNotes, { sortNotesList } from "@/components/sortNotes";
 import { Skeleton } from "@/components/ui/skeleton";
 import NoteCardMenu from "@/components/ui/note-card-menu";
 import { getRelativeTime, wasEdited } from "@/lib/time-utils";
+import { toast } from "sonner";
 
 const cardThemes = [
   {
@@ -238,20 +239,26 @@ function MainPageContent() {
   );
 
   function handleFavorite(noteId: string) {
+    const target = (notes as Note[])?.find((n) => n._id === noteId);
+    const isFav = target?.isFavorite;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     favorite({ noteId: noteId as any });
+    toast.success(isFav ? "Removed from favorites" : "Added to favorites");
   }
   function handleTrash(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     trash({ noteId: noteId as any });
+    toast.success("Note moved to trash");
   }
   function handleDuplicate(noteId: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     duplicate({ noteId: noteId as any });
+    toast.success("Note duplicated");
   }
   function handleChangeTag(noteId: string, tag: string) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     changeTag({ noteId: noteId as any, tag });
+    toast.success(`Tag updated to "${tag}"`);
   }
 
   function handleCardClick(noteId: string) {

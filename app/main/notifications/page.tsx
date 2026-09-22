@@ -7,6 +7,7 @@ import { Bell, CheckCircle2, Clock, Notebook } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function NotificationsPage() {
   const notifications = useQuery(api.notifications.getNotifications);
@@ -81,7 +82,14 @@ export default function NotificationsPage() {
         {notifications.length > 0 && (
           <Button 
             variant="outline" 
-            onClick={() => markAllAsRead()}
+            onClick={async () => {
+              try {
+                await markAllAsRead();
+                toast.success("All notifications marked as read");
+              } catch (error) {
+                toast.error("Failed to mark notifications as read");
+              }
+            }}
             className="flex items-center gap-1.5 sm:gap-2 cursor-pointer h-8 sm:h-10 px-2 sm:px-4 text-[11px] sm:text-sm"
           >
             <CheckCircle2 className="w-3 h-3 sm:w-4 sm:h-4" />

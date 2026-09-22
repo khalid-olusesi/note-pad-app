@@ -1,6 +1,5 @@
-import Groq from "groq-sdk";
-
-const GROQ_MODEL = "llama-3.3-70b-versatile";
+const OPENROUTER_MODEL = "meta-llama/llama-3.3-70b-instruct";
+const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1/chat/completions";
 const MAX_NOTES_IN_PROMPT = 20;
 const STOP_WORDS = new Set([
   "a",
@@ -93,13 +92,12 @@ type AiResponse = {
   sources: NoteSource[];
 };
 
-function getGroqClient() {
-  const apiKey = process.env.GROQ_API_KEY;
+function getOpenRouterApiKey(): string {
+  const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) {
-    throw new Error("GROQ_API_KEY is not configured");
+    throw new Error("OPENROUTER_API_KEY is not configured");
   }
-
-  return new Groq({ apiKey });
+  return apiKey;
 }
 
 function stripHtml(html: string): string {
@@ -272,23 +270,44 @@ export async function POST(req: Request) {
     }
 
     const relevantNotes = selectRelevantNotes(messages, notes);
-    const groq = getGroqClient();
-    const res = await groq.chat.completions.create({
-      model: GROQ_MODEL,
-      response_format: { type: "json_object" },
-      messages: [
-        { role: "system", content: buildSystemPrompt(relevantNotes) },
-        ...messages.map((message) => ({
-          role: message.role,
-          content: message.content,
-        })),
-      ],
+    const apiKey = getOpenRouterApiKey();
+
+    const res = await fetch(OPENROUTER_BASE_URL, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+        "X-Title": "KhalNote",
+      },
+      body: JSON.stringify({
+        model: OPENROUTER_MODEL,
+        response_format: { type: "json_object" },
+        messages: [
+          { role: "system", content: buildSystemPrompt(relevantNotes) },
+          ...messages.map((message) => ({
+            role: message.role,
+            content: message.content,
+          })),
+        ],
+      }),
     });
 
-    const raw = res.choices[0]?.message?.content;
+    if (!res.ok) {
+      const errorBody = await res.text();
+      console.error("OpenRouter API error:", res.status, errorBody);
+      return Response.json(
+        { error: `AI service error (${res.status})` },
+        { status: 502 },
+      );
+    }
+
+    const data = await res.json();
+    const raw = data.choices?.[0]?.message?.content;
+
     if (!raw) {
       return Response.json(
-        { error: "No response received from Groq" },
+        { error: "No response received from AI" },
         { status: 502 },
       );
     }
@@ -297,7 +316,7 @@ export async function POST(req: Request) {
 
     return Response.json({ answer, sources });
   } catch (error) {
-    console.error("Groq API error:", error);
+    console.error("OpenRouter API error:", error);
 
     const message =
       error instanceof Error ? error.message : "Failed to get AI response";

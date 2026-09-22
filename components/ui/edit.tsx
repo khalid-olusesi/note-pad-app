@@ -93,6 +93,7 @@ const Divider = () => <div className="w-px h-5 bg-border mx-1" />;
 // Toolbar
 
 function Toolbar({ editor }: { editor: Editor }) {
+  const [showHeadingDropdown, setShowHeadingDropdown] = useState(false);
   const [showColorPicker, setShowColorPicker] = useState(false);
   const [showHighlightPicker, setShowHighlightPicker] = useState(false);
   const [showLinkInput, setShowLinkInput] = useState(false);
@@ -101,6 +102,21 @@ function Toolbar({ editor }: { editor: Editor }) {
   const [imageUrl, setImageUrl] = useState("");
 
   if (!editor) return null;
+
+  const currentHeadingLabel = editor.isActive("heading", { level: 1 })
+    ? "Heading 1"
+    : editor.isActive("heading", { level: 2 })
+      ? "Heading 2"
+      : editor.isActive("heading", { level: 3 })
+        ? "Heading 3"
+        : "Paragraph";
+
+  const headingOptions = [
+    { label: "Paragraph", action: () => editor.chain().focus().setParagraph().run() },
+    { label: "Heading 1", action: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
+    { label: "Heading 2", action: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
+    { label: "Heading 3", action: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
+  ];
 
   const colors = [
     "#000000",
@@ -132,6 +148,7 @@ function Toolbar({ editor }: { editor: Editor }) {
     setShowImageInput(false);
     setShowColorPicker(false);
     setShowHighlightPicker(false);
+    setShowHeadingDropdown(false);
     if (!showLinkInput) {
       setLinkUrl(editor.getAttributes("link").href || "");
     }
@@ -142,6 +159,7 @@ function Toolbar({ editor }: { editor: Editor }) {
     setShowLinkInput(false);
     setShowColorPicker(false);
     setShowHighlightPicker(false);
+    setShowHeadingDropdown(false);
     setImageUrl("");
   };
 
@@ -164,12 +182,43 @@ function Toolbar({ editor }: { editor: Editor }) {
     <div className="flex flex-col gap-1 p-2 bg-[#0c0c0e] rounded-t-xl border-b border-border/50 relative">
       {/* Row 1 */}
       <div className="flex flex-wrap items-center gap-0.5">
-        <Button
-          variant="ghost"
-          className="h-8 px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
-        >
-          Paragraph <ChevronDown className="w-3 h-3 ml-2 opacity-70" />
-        </Button>
+        <div className="relative">
+          <Button
+            variant="ghost"
+            className="h-8 px-3 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted/50"
+            onClick={() => {
+              setShowHeadingDropdown(!showHeadingDropdown);
+              setShowColorPicker(false);
+              setShowHighlightPicker(false);
+              setShowLinkInput(false);
+              setShowImageInput(false);
+            }}
+          >
+            {currentHeadingLabel} <ChevronDown className="w-3 h-3 ml-2 opacity-70" />
+          </Button>
+
+          {showHeadingDropdown && (
+            <div className="absolute top-full left-0 mt-1 bg-[#1a1a1e] border border-border rounded-lg py-1 z-50 w-36 shadow-lg">
+              {headingOptions.map((opt) => (
+                <button
+                  key={opt.label}
+                  type="button"
+                  className={`w-full text-left px-3 py-1.5 text-sm hover:bg-muted/50 cursor-pointer transition-colors ${
+                    currentHeadingLabel === opt.label
+                      ? "text-purple-400 font-medium"
+                      : "text-muted-foreground"
+                  }`}
+                  onClick={() => {
+                    opt.action();
+                    setShowHeadingDropdown(false);
+                  }}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
 
         <Divider />
 

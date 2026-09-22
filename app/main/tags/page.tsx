@@ -348,9 +348,6 @@ export default function TagsPage() {
                         >
                           {note.title || "Untitled Note"}
                         </h2>
-                        <p className="text-xs text-muted-foreground line-clamp-1">
-                          {note.body ? note.body.replace(/<[^>]+>/g, "") : "No preview available"}
-                        </p>
                       </div>
                       <div className="flex items-center gap-2">
                         {viewMode === "grid" ? null : (

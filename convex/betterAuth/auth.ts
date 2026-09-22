@@ -13,7 +13,7 @@ export const authComponent = createClient<DataModel, typeof schema>(
   components.betterAuth,
   {
     local: { schema },
-    verbose: false,
+    verbose: true,
   },
 );
 
@@ -22,6 +22,7 @@ export const createAuthOptions = (ctx: GenericCtx<DataModel>) => {
   return {
     appName: "My App",
     baseURL: process.env.BETTER_AUTH_URL!,
+    trustedOrigins: [process.env.BETTER_AUTH_URL!],
     secret: process.env.BETTER_AUTH_SECRET!,
 
     database: authComponent.adapter(ctx),

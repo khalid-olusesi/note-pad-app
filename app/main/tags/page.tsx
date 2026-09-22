@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, Suspense } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Tag, Star, LayoutGrid, List } from "lucide-react";
@@ -61,12 +62,29 @@ type Note = {
   updatedAt?: number;
 };
 
-export default function TagsPage() {
+function TagsPageContent() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const tagParam = searchParams.get("tag");
+
   const notes = useQuery(api.notes.getNotesList);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [selectedTag, setSelectedTag] = useState<string | null>(tagParam);
   const [sortBy, setSortBy] = useState("latest");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+
+  useEffect(() => {
+    setSelectedTag(tagParam);
+  }, [tagParam]);
+
+  const handleSelectTag = (tag: string | null) => {
+    setSelectedTag(tag);
+    if (tag) {
+      router.push(`/main/tags?tag=${encodeURIComponent(tag)}`);
+    } else {
+      router.push("/main/tags");
+    }
+  };
 
   useEffect(() => {
     const saved = localStorage.getItem("note-view-mode");
@@ -230,7 +248,7 @@ export default function TagsPage() {
       {/* Tag Filters */}
       <div className="flex flex-wrap gap-2 mb-6">
         <button
-          onClick={() => setSelectedTag(null)}
+          onClick={() => handleSelectTag(null)}
           className={`px-3 py-1.5 rounded-full text-xs sm:text-sm font-medium transition-colors cursor-pointer ${
             selectedTag === null
               ? "bg-foreground text-background"
@@ -245,7 +263,7 @@ export default function TagsPage() {
           return (
             <button
               key={tag}
-              onClick={() => setSelectedTag(tag)}
+              onClick={() => handleSelectTag(tag)}
               className={`px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium transition-colors cursor-pointer ${
                 isActive
                   ? `${theme.pillBg} ${theme.pillText} ring-1 ring-current`
@@ -463,5 +481,13 @@ export default function TagsPage() {
         />
       )}
     </>
+  );
+}
+
+export default function TagsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <TagsPageContent />
+    </Suspense>
   );
 }

@@ -193,7 +193,7 @@ const SidebarContent = ({
                   key={tag.name}
                   title={tag.name}
                   onClick={() => {
-                    router.push(`/main/tags`);
+                    router.push(`/main/tags?tag=${encodeURIComponent(tag.name)}`);
                     setIsMobileMenuOpen(false);
                   }}
                   className="flex items-center cursor-pointer transition-colors text-sm text-muted-foreground hover:text-foreground justify-between px-3 py-1.5 rounded-lg hover:bg-muted/50"

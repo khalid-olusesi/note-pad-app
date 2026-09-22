@@ -457,7 +457,7 @@ function MainPageContent() {
                           e.stopPropagation();
                         }
                       }}
-                      className={`text-xs text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-12" : "max-h-16"} overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden`}
+                      className={`text-xs text-muted-foreground leading-relaxed tiptap-content ${viewMode === "list" ? "max-h-16" : "max-h-24"} overflow-y-auto scrollbar-none [&::-webkit-scrollbar]:hidden`}
                       dangerouslySetInnerHTML={{ __html: note.body }}
                     />
                   </div>

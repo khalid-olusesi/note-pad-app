@@ -94,12 +94,12 @@ export default function TrashPage() {
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2">
         {notes === undefined ? (
           Array.from({ length: 6 }).map((_, i) => (
             <div
               key={i}
-              className="flex flex-col bg-card/40 border border-border/50 rounded-xl p-4 shadow-sm min-h-36"
+              className="flex flex-col bg-card/40 border border-border/50 rounded-xl p-3 shadow-sm min-h-32 h-auto"
             >
               <Skeleton className="w-full h-24 rounded-lg mb-3" />
               <Skeleton className="h-5 w-2/3 mb-2" />
@@ -125,7 +125,7 @@ export default function TrashPage() {
           notes.map((note) => (
             <div
               key={note._id}
-              className="flex flex-col bg-card/40 border border-border/50 rounded-xl p-4 shadow-sm opacity-80 hover:opacity-100 transition-opacity min-h-36"
+              className="flex flex-col bg-card/40 border border-border/50 rounded-xl p-3 shadow-sm opacity-80 hover:opacity-100 transition-opacity min-h-32 h-auto"
             >
               {/* Cover Image */}
               {note.coverImage && (

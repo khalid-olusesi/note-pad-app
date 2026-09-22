@@ -199,7 +199,7 @@ export default function Favorite() {
       <div
         className={
           viewMode === "grid"
-            ? "grid grid-cols-1 lg:grid-cols-2 gap-4 p-2"
+            ? "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-2"
             : "flex flex-col gap-3 p-2"
         }
       >
@@ -272,7 +272,7 @@ export default function Favorite() {
                 }`}
               >
                 {viewMode === "list" && note.coverImage && (
-                  <div className="w-full sm:w-20 h-16 rounded-lg overflow-hidden border border-border/30 shrink-0 hidden sm:block">
+                  <div className="w-full sm:w-20 h-28 sm:h-16 rounded-lg overflow-hidden border border-border/30 shrink-0 mb-2 sm:mb-0">
                     <img
                       src={note.coverImage}
                       alt="Cover"

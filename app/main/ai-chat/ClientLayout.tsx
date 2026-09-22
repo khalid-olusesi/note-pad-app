@@ -52,8 +52,11 @@ function Sidebar() {
         <div className="flex items-center justify-between p-4 border-b border-border/50 space-y-0">
           <div className="flex-1 pr-2">
             <button
-              onClick={() => router.push("/main/ai-chat/new")}
-              className="w-full px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors shadow-md"
+              onClick={() => {
+                close();
+                router.push("/main/ai-chat/new");
+              }}
+              className="w-full px-3 py-2 bg-purple-600 hover:bg-purple-700 text-white text-sm font-medium rounded-lg transition-colors shadow-md cursor-pointer"
             >
               + New Chat
             </button>

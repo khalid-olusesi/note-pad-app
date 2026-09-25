@@ -12,6 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://note-pad-app-nu.vercel.app"),
   title: {
     default: "KhalNote — Your Personal Notepad",
     template: "%s | KhalNote",

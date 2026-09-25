@@ -26,7 +26,7 @@ export default function HomePage() {
       </div>
 
       {/* Nav */}
-      <nav className="sticky top-0 z-50 w-full border-b border-white/6 bg-[#0c0c10]/75 backdrop-blur-xl">
+      <nav className="landing-enter sticky top-0 z-50 w-full border-b border-white/6 bg-[#0c0c10]/75 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-14 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-linear-to-br from-violet-500 to-fuchsia-600">
@@ -47,7 +47,10 @@ export default function HomePage() {
             <Link href="#why" className="hover:text-zinc-200 transition-colors">
               Why KhalNote
             </Link>
-            <Link href="#contact" className="hover:text-zinc-200 transition-colors">
+            <Link
+              href="#contact"
+              className="hover:text-zinc-200 transition-colors"
+            >
               Contact Me
             </Link>
           </div>
@@ -83,24 +86,24 @@ export default function HomePage() {
         <section className="max-w-6xl mx-auto px-5 sm:px-8 pt-24 pb-28">
           <div className="max-w-2xl">
             {/* eyebrow */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/25 bg-violet-500/8 text-[11px] font-medium text-violet-300 mb-8 tracking-wide uppercase">
+            <div className="landing-enter landing-enter-delay-1 inline-flex items-center gap-2 px-3 py-1 rounded-full border border-violet-500/25 bg-violet-500/8 text-[11px] font-medium text-violet-300 mb-8 tracking-wide uppercase">
               <Sparkles className="w-3 h-3" />
               Your personal second brain
             </div>
 
-            <h1 className="text-[40px] sm:text-[54px] font-extrabold tracking-[-0.03em] leading-[1.08] mb-6 text-white">
+            <h1 className="landing-enter landing-enter-delay-2 text-[40px] sm:text-[54px] font-extrabold tracking-[-0.03em] leading-[1.08] mb-6 text-white">
               Write it down.
               <br />
               <span className="text-zinc-400 font-normal">Never lose it.</span>
             </h1>
 
-            <p className="text-[15px] text-zinc-400 leading-[1.75] mb-10 max-w-xl">
+            <p className="landing-enter landing-enter-delay-3 text-[15px] text-zinc-400 leading-[1.75] mb-10 max-w-xl">
               KhalNote is a private, fast, beautifully designed notepad. Capture
               thoughts, organize with tags, set reminders, and let AI surface
               what you've forgotten.
             </p>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="landing-enter landing-enter-delay-4 flex flex-wrap gap-3">
               {session ? (
                 <Link href="/main">
                   <Button className="bg-violet-600 hover:bg-violet-700 text-white h-11 px-7 rounded-xl text-sm font-semibold transition-all shadow-lg shadow-violet-600/20 flex items-center gap-2 cursor-pointer">
@@ -126,7 +129,7 @@ export default function HomePage() {
               )}
             </div>
 
-            <p className="text-xs text-zinc-600 mt-5">
+            <p className="landing-enter landing-enter-delay-5 text-xs text-zinc-600 mt-5">
               Free to use · No credit card needed
             </p>
           </div>
@@ -326,7 +329,10 @@ export default function HomePage() {
         </section>
 
         {/* ─── Footer ─── */}
-        <footer id="contact" className="border-t border-white/6 py-8 scroll-mt-16">
+        <footer
+          id="contact"
+          className="border-t border-white/6 py-8 scroll-mt-16"
+        >
           <div className="max-w-6xl mx-auto px-5 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-600">
             <div className="flex items-center gap-2">
               <div className="w-5 h-5 rounded flex items-center justify-center bg-linear-to-br from-violet-500 to-fuchsia-600">
@@ -336,7 +342,9 @@ export default function HomePage() {
             </div>
             <p>© {new Date().getFullYear()} KhalNote. All rights reserved.</p>
             <div className="flex items-center gap-5">
-              <span className="text-zinc-400 font-medium text-[13px]">Contact: 09038244886</span>
+              <span className="text-zinc-400 font-medium text-[13px]">
+                Contact: 09038244886
+              </span>
             </div>
           </div>
         </footer>

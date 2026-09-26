@@ -19,6 +19,9 @@ export const metadata: Metadata = {
   },
   description:
     "KhalNote is a private, fast, beautifully designed notepad. Capture thoughts, organize with tags, set reminders, and let AI surface what you've forgotten.",
+  alternates: {
+    canonical: "https://note-pad-app-nu.vercel.app",
+  },
   keywords: ["notes", "notepad", "ai notes", "personal notes", "KhalNote"],
   authors: [{ name: "Khalid Olusesi" }],
   openGraph: {
@@ -27,6 +30,14 @@ export const metadata: Metadata = {
     title: "KhalNote — Your Personal Notepad",
     description:
       "A private, fast notepad with AI-powered search, tags, reminders, and more.",
+    images: [
+      {
+        url: "/open-graph-image.png",
+        width: 1200,
+        height: 630,
+        alt: "KhalNote — Your Personal Notepad",
+      },
+    ],
   },
   icons: {
     icon: "/icon.svg?v=2",

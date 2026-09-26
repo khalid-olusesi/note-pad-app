@@ -40,8 +40,8 @@ export const metadata: Metadata = {
     ],
   },
   icons: {
-    icon: "/icons.svg",
-    apple: "/icons.svg",
+    icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }],
+    apple: "/favicon.png",
   },
 };
 
